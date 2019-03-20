@@ -1,0 +1,10 @@
+.coveragepy27-pytest
+.idea/
+.pytest-cache/
+.tox/
+.coverage
+htmlcov/
+test/__pycache__/
+src/cmframework.egg-info/
+*.pyc
+*.pyo

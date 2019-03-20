@@ -1,0 +1,547 @@
+---
+# yamllint disable rule:comments rule:comments-indentation rule:line-length
+
+# Copyright 2019 Nokia
+
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+### Version numbering:
+###    X.0.0
+###        - Major structural changes compared to the previous version.
+###        - Requires all users to update their user configuration to
+###          the new template
+###    a.X.0
+###        - Significant changes in the template within current structure
+###          (e.g. new mandatory attributes)
+###        - Requires all users to update their user configuration according
+###          to the new template (e.g. add new mandatory attributes)
+###    a.b.X
+###        - Minor changes in template (e.g. new optional attributes or
+###          changes in possible values, value ranges or default values)
+###        - Backwards compatible
+version: 2.0.0
+
+### Cloud name can consist of lower case letters, digits and dash (-).
+### Name must start and end with a letter or a digit.
+name: <VALUE>
+
+### Cloud description
+description: <VALUE>
+
+### Time related configuration
+time:
+    ### A list of NTP server IP addresses.
+    ntp_servers: [VALUE1, VALUE2, ...]
+
+    ### linux time zone name  (e.g. Europe/Helsinki or Asia/Shanghai)
+    zone: <VALUE>
+
+    ### supported values for authentication method of NTP:
+    ### crypto, symmetric, none
+    auth_type: none
+
+    ### If you are using authenticated NTP you must provide the url of the keys used for authentication
+    serverkeys_path:
+
+### User related configuration
+users:
+    ### Admin user details
+    admin_user_name: <VALUE>
+    ### Example how to create SHA512 password hash that can be given as
+    ### the admin password:
+    ### python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.using(rounds=5000).hash(getpass.getpass())"
+    admin_user_password: <VALUE>
+
+    ### User details for the initial user (gets user_management_admin role)
+    initial_user_name: <VALUE>
+    initial_user_password: <VALUE>
+
+    ### For CaaS deployments
+    ### keystone admin users password (at least 8 characters; at least one letter)
+    admin_password: <VALUE>
+
+### Networking configuration
+networking:
+    ### A list of DNS server IP addresses.
+    ### Max two addresses supported.
+    dns: [VALUE1, VALUE2]
+
+    ### Optional. Default network device mtu.
+    ### Valid value range: 1280 - 9000
+    ### When not set, defaults to 1500
+    #mtu: <VALUE>
+
+    infra_external:
+        ### Optional network mtu
+        ### If not defined default value is used.
+        #mtu: <VALUE>
+
+        ### Network domains
+        network_domains:
+            ### User defined name for network domain
+            rack-1:
+                ### Network address in CIDR format
+                cidr: <VALUE>
+
+                ### Optional vlan id
+                #vlan: <VALUE>
+
+                ### IP address of the gateway for default route
+                gateway: <VALUE>
+
+                ### Range for external IPs
+                ###  - First IP address of the range is reserved for vip
+                ###    (Public API access)
+                ###  - following addresses are reserved for cmanagement hosts
+                ###    (one address per management hosts)
+                ip_range_start: <VALUE>
+                ip_range_end: <VALUE>
+
+    ### Optional.
+    ### This configuration is required if there are storage hosts in
+    ### the configuration. This network is used for OSD Replication.
+    #infra_storage_cluster:
+        ### Optional network mtu
+        ### If not defined default value is used.
+        #mtu: <VALUE>
+
+        ### Network domains
+        #network_domains:
+            ### User defined name for network domain
+            #rack-1:
+                ### Network address in CIDR format (e.g. 192.168.4.0/26)
+                #cidr: <VALUE>
+
+                ### Optional vlan id
+                #vlan: <VALUE>
+
+                ### Optional IP range from the CIDR to limit IP addresses to use
+                #ip_range_start: <VALUE>
+                #ip_range_end: <VALUE>
+
+                ### Optional static routes
+                #routes:
+                #    - {to: <CIDR>, via: <IP>}
+
+    ### This network is used for:
+    ### - Internal communication/API
+    ### - SSH between hosts
+    ### - Internal services
+    ### - NTP between hosts
+    infra_internal:
+        ### Optional network mtu
+        ### If not defined default value is used.
+        #mtu: <VALUE>
+
+        ### Network domains
+        network_domains:
+            ### User defined name for network domain
+            rack-1:
+                ### Network address in CIDR format
+                cidr: 192.168.12.0/26
+
+                ### Optional vlan id
+                #vlan: <VALUE>
+
+                ### Optional IP range from the CIDR to limit IP addresses to use
+                #ip_range_start: <VALUE>
+                #ip_range_end: <VALUE>
+
+                ### Optional static routes
+                #routes:
+                #    - {to: 192.168.12.0/22, via: 192.168.12.1}
+            ### Use above structure for all the other network domains
+            #rack-2:
+                #cidr: 192.168.12.64/26
+                #vlan: <VALUE>
+                #ip_range_start: 192.168.12.68
+                #ip_range_end: 192.168.12.126
+                #routes:
+                #    - {to: 192.168.12.0/22, via: 192.168.12.65}
+
+    ### Provider networks
+    ### Provider network to physical interface mapping is done
+    ### in the network profile configuration
+    #provider_networks:
+        ### Any number of provider network names
+        #<provider_network_name1>:
+            ### Optional. Set provider network mtu.
+            ### If not defined default value is used.
+            #mtu: <VALUE>
+
+            ### Provider network vlan ranges
+            #vlan_ranges: "<VID_START1>:<VID_END1>,<VID_START2>:<VID_END2>,..."
+
+        ### Use above structure for all the other provider networks
+        #<provider_network_name2>:
+        #...
+
+### Needed for non-CaaS deployments
+#openstack:
+    ### keystone admin user password (at least 8 characters; at least one letter)
+    #admin_password: <VALUE>
+
+### Caas configuration
+caas:
+    ### This parameter globally sets a maximum allowed writable disk space quota for every container,
+    ### on all caas related hosts. The quota physically forbids any containers from storing data more
+    ### than the allowed size on its own rootfs.
+    ### These ephemeral disks are allocated from the Docker Cinder volume attached to all hosts,
+    ### and as such are limited in size. The quota protects the containers from possible noisy neighbours
+    ### by limiting their maximum consumption, and thus assuring that no one faulty container
+    ### can eat up the disk space of a whole container execution host.
+    ### Mandatory
+    docker_size_quota: "2G"
+
+    ### This parameter, if provided, will be set into the configuration of the CaaS cluster's
+    ### internal DNS server's configuration. Whenever a DNS query cannot be served by the default server,
+    ### it will be forwarded to the configured address, regardless which sub-domain the query belongs to.
+    ### Please note, that in case the address points out of the infrastructure,
+    ### connectivity between the infrastructure and the external DNS server needs to be separately set-up.
+    #upstream_nameserver: "10.74.3.252"
+
+    ### This parameter, if provided, will be set into the configuration of the CaaS cluster's
+    ### internal DNS server's configuration. Whenever a DNS query cannot be served by the default server,
+    ### it might be forwarded to the address set into the "stub_domain_ip" parameter.
+    ### However, forwarding only happens if "stub_domain_name" matches the domain name in the DNS query.
+    ### Please note, that in case the address points out of the infrastructure, connectivity between the
+    ### infrastructure and the external DNS server needs to be separately set-up.
+    #stub_domain:
+    #  name: "nokia.com"
+    #  ip: "10.74.3.252"
+
+    ### This parameter, if provided, controls how long a Helm install procedure waits before exiting with a timeout error.
+    ### Value is interpreted in minutes.
+    #helm_operation_timeout: "900"
+
+    ### The Docker container run-time engine creates a Linux network bridge by default, and provisions
+    ### a /24 IPv4 network on top of it. Even though this bridge is not used within CaaS subsytem,
+    ### the existence of this bridge is not configurable.
+    ### However, in certain customer environments the default IPv4 network of this bridge can collide with
+    ### real customer networks. To avoid IP collision issues in such cases, the application operator can globally set
+    ### the Docker bridge CIDRs of all host via this parameter.
+    #docker0_cidr: "172.17.0.1/16"
+
+    ### Mandatory parameter. All the infrastructure's HTTP servers are secured with TLS.
+    ### The certificates of the servers are created in infrastructure deployment time, and are signed by an externally provided CA certificate.
+    ### This CA certificate can be configured by setting its encrypted format into this configuration parameter.
+    ### Due to CBAM limitation the value of this parameters shall be provided as a one-element list in JSON format
+    ### e.g. ["U2FsdGVkX1+iaWyYk3W01IFpfVdughR5aDKo2NpcBw2USt.."]
+    encrypted_ca: '["<ENCRYPTED_CA>"]'
+
+    ### Manadatory parameter. All the infrastructure's HTTP servers are secured with TLS.
+    ### The certificates of the servers are created in infrastructure deployment time, and are signed by an externally provided CA certificate.
+    ### This CA certificate can be configured by setting its encrypted format into the "encrypted_CA" configuration parameter.
+    ### The key which can be used to decrypt this CA certificate shall be configured into this configuration parameter, but also encrypted.
+    ###This key shall be encrypted by the super-secret, static key, known only by infrastructure developers, and cloud operators.
+    ### Due to CBAM limitation the value of this parameters shall be provided as a one-element list in JSON format
+    ### e.g. ["U2FsdGVkX1+WlNST+W.."]
+    encrypted_ca_key: '["<ENCRYPTED_CA_KEY>"]'
+
+
+### Storage configuration
+storage:
+    #backends:
+      ### Configuration of supported storage backends.
+      ### At least one backend must be onfigured and only one backend can be enabled.
+      ### If more than one backend is configured then one should be enabled (enabled:true)
+      ### and the others should be disabled (enabled: false).
+
+      #ceph:
+         ### The ceph can be enbled only in a multi node configuration.
+         #enabled: <true/false>
+
+         ### The OSD replica count.
+         ### The number of replicas for objects in the pool.
+         ### Valid value range for any production environment: 2 - 3
+         ### (for testing purposes only, in environments with very limited
+         ###  storage resource, value 1 can be used as well)
+         ### Required if there are ceph nodes.
+         #osd_pool_default_size: <VALUE>
+
+
+### Network profiles
+network_profiles:
+    ### Users can define multiple network profiles depending on the hardware.
+    #<profile_name>:
+        ### Compulsory if bonding interfaces used for infra networks.
+        ### Bonding options for linux bonding interfaces used for infra
+        ### networks.
+        ### Supported options: "mode=lacp" and "mode=active-backup"
+        ### In "mode=lacp" both nics are active simultaniously.
+        ### In "mode=active-backup" only one slave in the bond is active and
+        ### the another slave becomes active only if the active slave fails.
+        #linux_bonding_options: <VALUE>
+
+        ### Optional bonding interfaces
+        #bonding_interfaces:
+            ### Any number of bonding interface names.
+            ### Bonding interface name syntax must be bond[n]
+            ### where n is a number.
+            ### Numbers in bonding interface names must be
+            ### consecutive natural numbers starting from 0
+            ### (bond0, bond1, bond2, ...)
+            ###
+            ### Value is a list of at least two physical interface names
+            ### (e.g. bond0: [eno3, eno4])
+            #<bonding interface name>: [<VALUE1>, <VALUE2>, ...]
+
+        ### Interface-subnet mapping
+        ### Any number of (name: value) pairs to map interfaces
+        ### (bonding or physical interface name) to subnets
+        ### Value is list of subnets
+        ### (e.g. bond0: [infra_internal, infra_storage_cluster] or
+        ###       eno3: [infra_external])
+        ### An interface can be mapped to at most one non-vlan subnet
+        interface_net_mapping:
+            #<interface_name>: [<VALUE1>, <VALUE2>, ...]
+
+        ### Optional provider network interface
+        #provider_network_interfaces:
+            ### Provider network physical interface.
+            ### Either Ethernet or bonding interface.
+            #<interface_name1>:
+                ### Provider networks on this interface.
+                ### Provider networks must be defined also in the networking:
+                ### provider_networks: configuration.
+                #provider_networks: [<VALUE1>,<VALUE2>,...]
+            ### Use above structure for all the provider network interfaces
+            ### in this profile
+            #<interface_name2>:
+            #...
+
+        ### Optional SR-IOV provider networks
+        #sriov_provider_networks:
+            ### Provider network name.
+            ### Must be defined also in the
+            ### networking: provider_networks: configuration.
+            #<provider_network_name1>:
+                ### SR-IOV physical function interfaces
+                ### Multiple Ethernet interfaces can be mapped to implement one
+                ### logical network.
+                ### SR-IOV interfaces can be used also for the infra networks
+                ### but only if network card type supports that
+                ### (for example Mellanox ConnectX-4 Lx
+                ### does and Intel Niantic doesn't). Another restriction is that
+                ### bond option cannot be "mode=lacp" if SR-IOV interfaces are
+                ### also bonding slave interfaces.
+                #interfaces: [<VALUE1>, <VALUE2>, ...]
+
+                ### Optional VF count per physical PF interface
+                ### If this parameter is not defined, default is to create
+                ### maximum supported amount of VF interfaces. In case of
+                ### Mellanox NIC (mlx5_core driver) given VF count will be
+                ### configured to the NIC HW as a maximum VF count.
+                #vf_count: <COUNT>
+
+                ### Optional VF trusted mode setting
+                ### If enabled, PF can accept some priviledged operations from
+                ### the VF. See the NIC manufacturer documentation for more
+                ### details.
+                ### Default: false
+                #trusted: [true|false]
+            ### Use above structure for all the SR-IOV provider networks in
+            ### this profile
+            #<provider_network_name2>
+            #...
+
+### Performance profiles
+performance_profiles:
+    #<profile_name>:
+        ### The parameters specified here are affected by the type
+        ### of network profile selected for the node as follows:
+        ### The following types are supported:
+        ### SR-IOV: no mandatory parameters, but following can be used:
+        ###          - default_hugepagesz
+        ###          - hugepagesz
+        ###          - hugepages
+
+        ### Configuration for huge page usage.
+        ### Notice: Huge page values must be in balance with RAM available
+        ### in any node.
+        ###
+        ### Default huge page size. Valid values are 2M and 1G.
+        #default_hugepagesz: <VALUE>
+        ### Huge page size selection parameter. Valid values are 2M and 1G.
+        #hugepagesz: <VALUE>
+        ### The number of allocated persistent huge pages
+        #hugepages: <VALUE>
+
+        ### Host CPU allocations.
+        ### Any host CPUs that are not allocated for some specific purpose
+        ### here will be automatically assigned by the system:
+        ### - All remaining CPUs are allocated for the host platform.
+
+        ### Optional. Allocate CPUs for the host platform.
+        ### The configured counts determine the number of full CPU cores to
+        ### allocate from each specified NUMA node. If hyperthreading is
+        ### enabled, all sibling threads are automatically grouped together
+        ### and counted as one CPU core. The actual configurable range
+        ### depends on target hardware CPU topology and desired performance
+        ### configuration.
+        ### Notice: The host platform must always have have at least one CPU
+        ### core from NUMA node 0.
+        #platform_cpus:
+            #numa0: <COUNT>
+            #numa1: <COUNT>
+
+### Storage profiles
+storage_profiles:
+    ### The storage_profiles section name is part of mandatory configuration.
+    ###
+    ### There must always be at least one profile defined when ceph or lvm
+    ### have been configured and enabled as the backend in the storage section.
+    ### This profile represents the enabled backend in question.
+    ###
+    ### In addition the user can optionally configure storage instance profiles
+    ### in this section.
+
+    #<profile_name>:
+        ### Name of the storage backend. The allowed values for the backend are
+        ### - ceph
+        ### - bare_lvm
+        ###
+        #backend: <VALUE>
+
+        ### Backend specific attributes - see examples of supported backend
+        ### specific attributes in the following storage profile templates.
+        #...
+
+    #ceph_backend_profile:
+        ### Mandatory
+        ### A storage profile for ceph backend. This storage profile is linked
+        ### to all of the storage hosts. The ceph profile is possible only with
+        ### a multihost configuration with three (3) management hosts.
+        ###
+        #backend: ceph
+
+        ### Mandatory
+        ### Number of devices that should be used as osd disks in one node.
+        ### This is a mandatory attribute for ceph storage hosts.
+        ### Max number of ceph osd disks is 3.
+        #nr_of_ceph_osd_disks: <VALUE>
+
+        ### Optional
+        ### The share ratio between the Openstack & CaaS subsystems for
+        ### the available Ceph storage. Expected to be in ratio format (A:B),
+        ### where the first number is for Openstack, the second one is for CaaS subsystem.
+        ### Always quote the value! Default value is "1:0".
+        #ceph_pg_openstack_caas_share_ratio: "<VALUE>"
+
+    #bare_lvm_profile
+        ### Mandatory
+        ### A storage profile to create bare lvm volumes.
+        ###
+        ### This profile can be used to create an LVM volume that will be
+        ### available under the defined directory for any further use.
+        ###
+        ### This profile is mandatory for caas_worker hosts and should be
+        ### mounted to /var/lib/docker.
+        ###
+        #backend: bare_lvm
+
+        ### Mandatory
+        ### This paramater contains which partitions to be used
+        ### for instance volume group.
+        #lvm_instance_storage_partitions: [<VALUE1>, <VALUE2>, ...]
+
+        ### Mandatory
+        ### This paramater defines bare_lvm how much space should take
+        ### from LVM pool.
+        ### Note that this option left for compatibility reasons, actual value
+        ### dynamically calculated.
+        ### calculated.
+        #bare_lvm_storage_percentage: <VALUE>
+
+        ### Mandatory
+        ### This parameter contains the name for the created LVM volume.
+        #lv_name: <VALUE>
+
+        ### Mandatory
+        ### This parameter contains the directory where to mount
+        ### the backend of this profile.
+        #mount_dir: <VALUE>
+
+        ### Optional
+        ### This parameter contains the mount options used to mount
+        ### the backend. The format must be a valid fstab format.
+        ### By default it is empty.
+        #mount_options: <VALUE>
+
+host_os:
+    ### The value of this parameter is used to protect the entire GRUB 2 menu structure of all the infrastructure nodes.
+    ### The configured value should be a properly salted PBKDF2 (Password-Based Key Derivation Function 2) hash.
+    ### Interactive tool "grub2-mkpasswd-pbkdf2" can be used to create the hash.
+    ### Operators will be only able to make changes in the GRUB menu, if the
+    ### hashed version of the typed-in password matches with the value of this parameter.
+    ###
+    #grub2_password: "<VALUE>"
+    ### User lockout parameters are set with failed_login_attempts (default is 5)
+    ### and lockout_time (default is 300 seconds (5 minutes))
+    #failed_login_attempts: <VALUE>
+    #lockout_time: <VALUE>
+
+### Cloud hosts
+hosts:
+    #<node-name>:
+        ### The service profiles for this node. Valid values are the following:
+        ### management/base/storage/caas_master/caas_worker
+        ### Currently supported service profile combinations:
+        ###   1 Any permutations of: management/base/storage e.g: [ manangement, storage ]
+        ###   2 Either or both [management, caas_master] e.g.: [ management, caas_master ]
+        ###   3 caas_worker can't be combined with any other profile: e.g.: [ caas_worker ]
+        service_profiles: [<VALUE1>, <VALUE2>, ...]
+
+        ### The network profiles for this node, the value used in the list
+        ### should match a profile from the network_profiles section.
+        ### Only one network profile per host supported at the moment.
+        network_profiles: [profile1]
+
+        ### The storage profiles for this node, the value used in the list
+        ### should match a profile from the storage_profiles section.
+        #storage_profiles: [profile1]
+
+        ### The performance profiles for this node, the value used in the list
+        ### should match a profile from the performance_profiles section.
+        ### Only one performance profile per host supported at the moment.
+        #performance_profiles: [profile1]
+
+        ### The kubernetes label set of the node, you can define an arbitrary set of key-value pairs.
+        ### These key-value pairs will be provisioned to the corresponding
+        ### Kubernetes node object as kubernetes labels.
+        ### Optional parameter, only interpreted when the node has a CaaS subsystem related service profile.
+        ### For any other node this attribute will be silently ignored.
+        ### The keys under "labels" can be anything, except: 'name', 'nodetype', 'nodeindex', 'nodename'
+        ### These labels are reserved for infrastructure usage
+        #labels:
+        #  type: "performance"
+        #  cpu: "turboboost"
+        #  hyperthreading: "off"
+        #  ...
+
+        ### Network domain for this node
+        ### Value should match some network domain in networking section.
+        network_domain: rack-1
+
+        ### HW management (e.g. IPMI or iLO) address and credentials
+        hwmgmt:
+            address: <VALUE>
+            user: <VALUE>
+            password: <VALUE>
+
+        ### Optional parameter needed for virtual deployment to identify the
+        ### nodes the mac address for the provisioning interface
+        #mgmt_mac: [<VALUE1>, <VALUE2>, ...]
+
+...
+

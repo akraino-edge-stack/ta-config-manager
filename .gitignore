@@ -1,0 +1,11 @@
+.coveragepy27-pytest
+.idea/
+.pytest-cache/
+.tox/
+.coverage
+htmlcov/
+__pycache__/
+*.egg-info/
+*.egg
+*.pyc
+*.pyo

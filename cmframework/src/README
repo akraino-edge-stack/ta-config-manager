@@ -1,0 +1,13 @@
+This project provides an implementation for a generic configuration management
+framework. The framework provides the following:
+* Interfaces for getting, setting or deleting of configuration data.
+* Interfaces for taking a backup of configuration data.
+* Interfaces for restoring the configuration data from a previously taken
+  backup.
+* A CLI for manipulating the configuration data.
+* A plugin based interface for validating the change in configuration data.
+* A plugin based interface for activating the change in configuration data.
+
+At the highlevel, the framework surves the following purposes:
+* Provides a unified interface for manipulating the configuration data.
+* Isolate the configuration management users from changes in the used backend.
