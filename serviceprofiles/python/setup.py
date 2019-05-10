@@ -23,7 +23,7 @@ setup(
         namespace_packages=['serviceprofiles'],
         packages=find_packages(),
         include_package_data=True,
-        url='gerrite1.ext.net.nokia.com:8282/service-profiles',
+        url='',
         description='service profiles library',
         zip_safe=False,
         )
