@@ -21,6 +21,7 @@ import jinja2
 
 CAAS_CONFIG_FILE_PATH = "/etc/cmframework/config/"
 CAAS_CONFIG_FILE = "caas.yaml"
+DEFAULT_CAAS_DNS_DOMAIN = "rec.io"
 
 
 class Config(config.Config):
@@ -55,6 +56,8 @@ class Config(config.Config):
         user_conf = self.confman.get_users_config_handler()
         self.config[self.ROOT]['helm_home'] = "/home/" + user_conf.get_admin_user() + "/.helm"
         self.config[self.ROOT]['flavour'] = self.flavour_set()
+        if not self.config[self.ROOT].get('dns_domain', ""):
+            self.config[self.ROOT]['dns_domain'] = DEFAULT_CAAS_DNS_DOMAIN
 
     def set_static_config(self):
         try:
@@ -63,14 +66,24 @@ class Config(config.Config):
                     CAAS_CONFIG_FILE_PATH)).get_template(CAAS_CONFIG_FILE)
             with open(CAAS_CONFIG_FILE_PATH + CAAS_CONFIG_FILE) as config_file:
                 data = yaml.load(config_file)
-            outputText = template.render(data)
-            config_data = yaml.load(outputText)
-            for key in config_data:
-                self.config[self.ROOT][key] = config_data[key]
+            self.config[self.ROOT].update(
+                self._template_config(template, self.config[self.ROOT], data))
         except jinja2.exceptions.TemplateNotFound:
             return
         except Exception:
             raise configerror.ConfigError("Unexpected issue occured!")
+
+    def _template_config(self, template, base_config, initial_data):
+        config_data = initial_data.copy()
+        config_data.update(base_config)
+        outputText = template.render(config_data)
+        previousOutputText = ""
+        while outputText != previousOutputText:
+            config_data = yaml.load(outputText)
+            config_data.update(base_config)
+            outputText = template.render(config_data)
+            previousOutputText = outputText
+        return yaml.load(outputText)
 
     def add_defaults(self):
         if not self.config.get('cloud.caas', ''):
@@ -141,3 +154,7 @@ class Config(config.Config):
 
     def get_caas_parameter(self, parameter):
         return self.config.get(self.ROOT, {}).get(parameter, '')
+
+    def get_kubernetes_domain(self):
+        return 'kubernetes.default.svc.{}'.format(
+            self.config.get(self.ROOT, {}).get('dns_domain', ''))

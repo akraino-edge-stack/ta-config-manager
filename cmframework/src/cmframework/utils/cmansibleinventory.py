@@ -93,7 +93,7 @@ class AnsibleInventory(object):
 
     def set_caas_master_data(self, hostvars, node, caasconf, hostsconf):
         dns = hostvars[node]['ssl_alt_name']['dns']
-        dns.append('kubernetes.default.svc.nokia.net')
+        dns.append(caasconf.get_kubernetes_domain())
         dns.append(caasconf.get_apiserver_in_hosts())
         dns.append(caasconf.get_registry_url())
         dns.append(caasconf.get_update_registry_url())

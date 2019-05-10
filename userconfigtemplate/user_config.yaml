@@ -248,6 +248,11 @@ caas:
     ### e.g. ["U2FsdGVkX1+WlNST+W.."]
     encrypted_ca_key: '["<ENCRYPTED_CA_KEY>"]'
 
+    ### This parameter defines the DNS domain served by the REC DNS server for example
+    ### in-cluster Kubernetes Services all belongs to this domain DNS queries. 
+    ### Outside of this domain are either rejected, or forwarded to a configured upstream DNS server (if, any).
+    ### The default value is: rec.io
+    #dns_domain: "<VALUE>"
 
 ### Storage configuration
 storage:
@@ -544,4 +549,3 @@ hosts:
         #mgmt_mac: [<VALUE1>, <VALUE2>, ...]
 
 ...
-
