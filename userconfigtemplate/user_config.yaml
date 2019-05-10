@@ -248,6 +248,10 @@ caas:
     ### e.g. ["U2FsdGVkX1+WlNST+W.."]
     encrypted_ca_key: '["<ENCRYPTED_CA_KEY>"]'
 
+    ### This parameter defines the DNS domain for infrastructure names, and
+    ### Kubernetes services
+    ### The default value is: cluster.local
+    #dns_domain: "cluster.local"
 
 ### Storage configuration
 storage:
@@ -544,4 +548,3 @@ hosts:
         #mgmt_mac: [<VALUE1>, <VALUE2>, ...]
 
 ...
-
