@@ -104,9 +104,11 @@ function main()
             fi
         else
             log_installation_success
+            /opt/openstack-ansible/playbooks/report-installation-progress --status completed --description "Installation complete" --percentage 100
         fi
     else
         log_installation_failure
+        /opt/openstack-ansible/playbooks/report-installation-progress --status failed --description "Installation failed"
     fi
 
     return $rc

@@ -20,6 +20,7 @@ class AnsiblePlaybooks(object):
     provisioning_playbook = 'provisioning-playbook.yml'
     postconfig_playbook = 'postconfig-playbook.yml'
     finalize_playbook = 'finalize-playbook.yml'
+    progress_playbook = 'report_installation_progress.yml'
 
     def __init__(self, dest, bootstrapping_path, provisioning_path, postconfig_path, finalize_path):
         self.dest = dest
@@ -29,21 +30,48 @@ class AnsiblePlaybooks(object):
         self.finalize_path = finalize_path
 
     def generate_playbooks(self):
-        self._generate_playbook(self.bootstrapping_path, self.bootstrapping_playbook)
-        self._generate_playbook(self.provisioning_path, self.provisioning_playbook)
-        self._generate_playbook(self.postconfig_path, self.postconfig_playbook)
-        self._generate_playbook(self.finalize_path, self.finalize_playbook)
+        bootstrapping_lists, bootstrapping_size = self._get_playbook_lists(self.bootstrapping_path)
+        provisioning_lists, provisioning_size = self._get_playbook_lists(self.provisioning_path)
+        postconfig_lists, postconfig_size = self._get_playbook_lists(self.postconfig_path)
+        finalize_lists, finalize_size = self._get_playbook_lists(self.finalize_path)
 
-    def _generate_playbook(self, directory, name):
+        number_of_playbooks = bootstrapping_size \
+                              + provisioning_size \
+                              + postconfig_size \
+                              + finalize_size
+
+        playbook_percentage_value = 99.0 / number_of_playbooks
+
+        self._generate_playbook(bootstrapping_lists, self.bootstrapping_playbook, 0, playbook_percentage_value)
+        progress_start = bootstrapping_size*playbook_percentage_value
+        self._generate_playbook(provisioning_lists, self.provisioning_playbook, progress_start, playbook_percentage_value)
+        progress_start = (bootstrapping_size+provisioning_size)*playbook_percentage_value
+        self._generate_playbook(postconfig_lists, self.postconfig_playbook, progress_start, playbook_percentage_value)
+        progress_start = (bootstrapping_size+provisioning_size+postconfig_size)*playbook_percentage_value
+        self._generate_playbook(finalize_lists, self.finalize_playbook, progress_start, playbook_percentage_value)
+
+    def _get_playbook_lists(self, directory):
         graph = self._get_dependency_graph(directory)
         topsort = cmtopologicalsort.TopSort(graph)
         sortedlists = topsort.sort()
+
+        size = 0
+        for entry in sortedlists:
+            size += len(entry)
+
+        return sortedlists, size
+
+    def _generate_playbook(self, sortedlists, name, progress_start, playbook_percentage_value):
+        progress = progress_start
         with open(self.dest + '/' + name, 'w') as f:
             for entry in sortedlists:
                 for e in entry:
-                    fullpath = directory + '/' + e
-                    if os.path.exists(fullpath):
-                        f.write('- import_playbook: ' + e + '\n')
+                    f.write('- import_playbook: ' + self.progress_playbook +
+                            ' installation_progress_phase=' + name +
+                            ' installation_progress_playbook=' + e +
+                            ' installation_progress=' + str(progress) + '\n')
+                    f.write('- import_playbook: ' + e + '\n')
+                    progress = progress+playbook_percentage_value
 
     def _get_dependency_graph(self, directory):
         entries = os.listdir(directory)
@@ -52,7 +80,13 @@ class AnsiblePlaybooks(object):
             entryfull = directory + '/' + entry
             if os.path.isfile(entryfull) or os.path.islink(entryfull):
                 requires = self._get_required_playbooks(entryfull)
-                graph[entry] = requires
+                existing_requires = []
+                for require in requires:
+                    requirefull = directory + '/' + require
+                    if os.path.exists(requirefull):
+                        existing_requires.append(require)
+                graph[entry] = existing_requires
+
         return graph
 
     @staticmethod
@@ -70,6 +104,7 @@ class AnsiblePlaybooks(object):
                     tmp = data[1].replace(" ", "")
                     requires = tmp.split(',')
                     break
+
         return requires
 
 
