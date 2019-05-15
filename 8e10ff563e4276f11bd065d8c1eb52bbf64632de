@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3bf0bf31_ca566dca",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-05-15T13:18:52Z",
+      "side": 1,
+      "message": "\u003e sthing sthing sthing \"rec\"? :)\n\u003e \n\u003e rec.io?\n\nSure, just there there as a safe default.",
+      "parentUuid": "28e20632_753f9167",
+      "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5558d0b2_58a359a0",
         "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
         "patchSetId": 1
@@ -30,6 +48,24 @@
       "writtenOn": "2019-05-15T11:17:26Z",
       "side": 1,
       "message": "what\u0027s the point of returning the FQDN when we only want to know the domain?",
+      "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b392933_8dbc86b2",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-05-15T13:18:52Z",
+      "side": 1,
+      "message": "Replied in the inventory for this one.",
+      "parentUuid": "5558d0b2_58a359a0",
       "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "96305463_48117626",
+        "filename": "cmframework/src/cmframework/utils/cmansibleinventory.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-05-15T13:18:52Z",
+      "side": 1,
+      "message": "\u003e ah, that\u0027s why\n\u003e IMO we should simply use the existing generic \"getter\" and should only always interrogate the domain. concatenating the domain to a specific FQDN is the job of the caller\n\u003e having two getters, one for the CaaS domain and one for the K8s domain can complicate things and confuse developers in the future\n\nI believe it\u0027s not the cmansibleinventory\u0027s responsibility to assemble any domain names, but the caasconfig handler\u0027s. The inventory should only ask for the values it needs from the config handlers.\nThat\u0027s another topic, that these settings shouldn\u0027t be here, but in one of the config handlers.",
+      "parentUuid": "b722f50d_5f136bfe",
+      "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28ec4072_b486ce4c",
         "filename": "userconfigtemplate/user_config.yaml",
         "patchSetId": 1
@@ -64,6 +118,24 @@
       "writtenOn": "2019-05-15T11:17:26Z",
       "side": 1,
       "message": "I feel \"defines the DNS domain served by the REC DNS server\" is more accurate\nthen we can list that \"for example in-cluster Kubernetes Services all belong to this domain\"\nalso \"DNS queries outside of this domain are either rejected, or forwarded to a configured upstream DNS server (if, any)\".",
+      "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18721ed8_64f000e5",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-05-15T13:18:52Z",
+      "side": 1,
+      "message": "Good point. I will add these.",
+      "parentUuid": "28ec4072_b486ce4c",
       "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
