@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "ffec2788_f8625835",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-05-15T13:25:36Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "5b392933_8dbc86b2",
+      "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b722f50d_5f136bfe",
         "filename": "cmframework/src/cmframework/utils/cmansibleinventory.py",
         "patchSetId": 1
@@ -104,6 +122,24 @@
       "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4cf4d0a_436d220f",
+        "filename": "cmframework/src/cmframework/utils/cmansibleinventory.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-05-15T13:25:36Z",
+      "side": 1,
+      "message": "yeah, fair enough\nI\u0027m fairly sure someone will accidentally sue the wrong getter at some point, but let\u0027s see",
+      "parentUuid": "96305463_48117626",
+      "revId": "8e10ff563e4276f11bd065d8c1eb52bbf64632de",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
     },
     {
       "key": {
