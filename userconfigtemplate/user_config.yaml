@@ -29,7 +29,7 @@
 ###        - Minor changes in template (e.g. new optional attributes or
 ###          changes in possible values, value ranges or default values)
 ###        - Backwards compatible
-version: 2.0.1
+version: 2.0.2
 
 ### Cloud name can consist of lower case letters, digits and dash (-).
 ### Name must start and end with a letter or a digit.
@@ -316,6 +316,15 @@ network_profiles:
             ### Provider network physical interface.
             ### Either Ethernet or bonding interface.
             #<interface_name1>:
+                ### Provider network type.
+                ###
+                ### Supported types:
+                ###   caas:
+                ###      Containers as a Service (CaaS) provider network
+                ### Notes:
+                ### CaaS bond interfaces are configured as a Linux bond interfaces.
+                #type: <caas>
+
                 ### Provider networks on this interface.
                 ### Provider networks must be defined also in the networking:
                 ### provider_networks: configuration.
@@ -355,6 +364,11 @@ network_profiles:
                 ### details.
                 ### Default: false
                 #trusted: [true|false]
+
+                ### Optional provider network type
+                ### - caas: configure as CaaS SR-IOV cluster network
+                ### Default: caas
+                #type: <caas>
             ### Use above structure for all the SR-IOV provider networks in
             ### this profile
             #<provider_network_name2>
