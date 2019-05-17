@@ -46,10 +46,12 @@ class Config(config.Config):
             utils.validate_list_items_unique(bondinginterfaces)
 
             for bond in bondinginterfaces:
-                bondedinterfaces = self.get_profile_bonded_interfaces(profile, bond)
+                bondedinterfaces = self.get_profile_bonded_interfaces(
+                    profile, bond)
                 utils.validate_list_items_unique(bondedinterfaces)
                 if len(bondedinterfaces) < 2:
-                    raise configerror.ConfigError('Number of bonded interfaces should be at least 2 in %s' % bond)
+                    raise configerror.ConfigError(
+                        'Number of bonded interfaces should be at least 2 in %s' % bond)
 
         mappedinterfaces = self.get_profile_network_mapped_interfaces(profile)
 
@@ -58,11 +60,13 @@ class Config(config.Config):
         netconf = self.confman.get_networking_config_handler()
         validnetworks = netconf.get_networks()
         for interface in mappedinterfaces:
-            networks = self.get_profile_interface_mapped_networks(profile, interface)
+            networks = self.get_profile_interface_mapped_networks(
+                profile, interface)
             utils.validate_list_items_unique(networks)
             for network in networks:
                 if network not in validnetworks:
-                    raise configerror.ConfigError('Network %s is not valid' % network)
+                    raise configerror.ConfigError(
+                        'Network %s is not valid' % network)
 
     def is_valid_profile(self, profile):
         """
@@ -111,7 +115,9 @@ class Config(config.Config):
         self.is_valid_profile(profile)
 
         if 'linux_bonding_options' not in self.config[self.ROOT][profile]:
-            raise configerror.ConfigError('profile %s has no linux bonding options' % profile)
+            raise configerror.ConfigError(
+                'profile %s has no linux bonding options' %
+                profile)
 
         return self.config[self.ROOT][profile]['linux_bonding_options']
 
@@ -131,7 +137,9 @@ class Config(config.Config):
         self.is_valid_profile(profile)
 
         if 'bonding_interfaces' not in self.config[self.ROOT][profile]:
-            raise configerror.ConfigError('Profile %s has no bonding interfaces' % profile)
+            raise configerror.ConfigError(
+                'Profile %s has no bonding interfaces' %
+                profile)
 
         return self.config[self.ROOT][profile]['bonding_interfaces'].keys()
 
@@ -152,7 +160,9 @@ class Config(config.Config):
         self.validate_root()
         bondinterfaces = self.get_profile_bonding_interfaces(profile)
         if bond not in bondinterfaces:
-            raise configerror.ConfigError('Invalid bond interface name %s in profile %s' % (bond, profile))
+            raise configerror.ConfigError(
+                'Invalid bond interface name %s in profile %s' %
+                (bond, profile))
 
         return self.config[self.ROOT][profile]['bonding_interfaces'][bond]
 
@@ -172,7 +182,9 @@ class Config(config.Config):
         self.is_valid_profile(profile)
 
         if 'interface_net_mapping' not in self.config[self.ROOT][profile]:
-            raise configerror.ConfigError('Profile %s has now interface to network mapping' % profile)
+            raise configerror.ConfigError(
+                'Profile %s has now interface to network mapping' %
+                profile)
 
         return self.config[self.ROOT][profile]['interface_net_mapping'].keys()
 
@@ -193,7 +205,9 @@ class Config(config.Config):
         self.is_valid_profile(profile)
         mappedinterfaces = self.get_profile_network_mapped_interfaces(profile)
         if interface not in mappedinterfaces:
-            raise configerror.ConfigError('Interface %s is not valid for profile %s' % (interface, profile))
+            raise configerror.ConfigError(
+                'Interface %s is not valid for profile %s' %
+                (interface, profile))
 
         return self.config[self.ROOT][profile]['interface_net_mapping'][interface]
 
@@ -212,15 +226,20 @@ class Config(config.Config):
         """
         self.is_valid_profile(profile)
         if 'provider_network_interfaces' not in self.config[self.ROOT][profile]:
-            raise configerror.ConfigError('Profile %s has no provider network interfaces' % profile)
+            raise configerror.ConfigError(
+                'Profile %s has no provider network interfaces' %
+                profile)
 
-        return sorted(self.config[self.ROOT][profile]['provider_network_interfaces'].keys())
+        return sorted(self.config[self.ROOT][profile]
+                      ['provider_network_interfaces'].keys())
 
     def _get_profile_provider_network_interface_dict(self, profile, interface):
         self.is_valid_profile(profile)
         interfaces = self.get_profile_provider_network_interfaces(profile)
         if interface not in interfaces:
-            raise configerror.ConfigError('Profile %s has no provider interface with name %s' % (profile, interface))
+            raise configerror.ConfigError(
+                'Profile %s has no provider interface with name %s' %
+                (profile, interface))
 
         return self.config[self.ROOT][profile]['provider_network_interfaces'][interface]
 
@@ -238,11 +257,30 @@ class Config(config.Config):
         Raises:
             ConfigError in-case of an error
         """
-        iface_dict = self._get_profile_provider_network_interface_dict(profile, interface)
+        iface_dict = self._get_profile_provider_network_interface_dict(
+            profile, interface)
         if 'type' not in iface_dict:
-            raise configerror.ConfigError('Provider network interface %s in profile %s does not have a type!' % (interface, profile))
+            raise configerror.ConfigError(
+                'Provider network interface %s in profile %s does not have a type!' %
+                (interface, profile))
 
         return iface_dict['type']
+
+    def is_provider_network_type_caas(self, profile, interface):
+        """
+        Is provider network type caas
+
+        Arguments:
+            The profile name
+            The interface name
+
+        Returns:
+            True if provider network is for CaaS
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        return self.get_profile_provider_network_interface_type(profile, interface) == 'caas'
 
     def get_profile_provider_interface_networks(self, profile, interface):
         """
@@ -258,9 +296,12 @@ class Config(config.Config):
         Raises:
             ConfigError in-case of an error
         """
-        iface_dict = self._get_profile_provider_network_interface_dict(profile, interface)
+        iface_dict = self._get_profile_provider_network_interface_dict(
+            profile, interface)
         if 'provider_networks' not in iface_dict:
-            raise configerror.ConfigError('Profile %s has no provider networks for interface %s' % (profile, interface))
+            raise configerror.ConfigError(
+                'Profile %s has no provider networks for interface %s' %
+                (profile, interface))
 
         return iface_dict['provider_networks']
 
@@ -279,7 +320,9 @@ class Config(config.Config):
         """
         self.is_valid_profile(profile)
         if 'sriov_provider_networks' not in self.config[self.ROOT][profile]:
-            raise configerror.ConfigError('Profile %s has no SR-IOV provider networks' % profile)
+            raise MissingSriovProviderNetworks(
+                'Profile %s has no SR-IOV provider networks' %
+                profile)
 
         return self.config[self.ROOT][profile]['sriov_provider_networks'].keys()
 
@@ -297,10 +340,143 @@ class Config(config.Config):
         Raises:
             ConfigError in-case of an error
         """
-        if network not in self.get_profile_sriov_provider_networks(profile):
-            raise configerror.ConfigError('Profile %s has no SR-IOV provider network %s' % (profile, network))
+        self._validate_network_is_sriov_provider_network(profile, network)
 
         if 'interfaces' not in self.config[self.ROOT][profile]['sriov_provider_networks'][network]:
-            raise configerror.ConfigError('Profile %s has no SR-IOV provider network interfaces for the network %s' % (profile, network))
+            raise configerror.ConfigError(
+                'Profile %s has no SR-IOV provider network interfaces for the network %s' %
+                (profile, network))
 
         return self.config[self.ROOT][profile]['sriov_provider_networks'][network]['interfaces']
+
+    def get_profile_sriov_provider_network_type(self, profile, network):
+        """
+        Get SR-IOV provider network type
+
+        Arguments:
+            The profile name
+            The SR-IOV network name
+
+        Returns:
+            Type of SR-IOV provider network
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        self._validate_network_is_sriov_provider_network(profile, network)
+
+        return self.config[self.ROOT][profile]['sriov_provider_networks'][network].get('type', "")
+
+    def set_profile_sriov_provider_network_type(self, profile, network, type):
+        """
+        Get SR-IOV provider network interfaces
+
+        Arguments:
+            The profile name
+            The SR-IOV network name
+            The type of SR-IOV network
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        self._validate_network_is_sriov_provider_network(profile, network)
+
+        if not isinstance(type, basestring):
+            raise configerror.ConfigError(
+                'Profile %s has invalid SR-IOV provider network type for the network %s: %s' %
+                (profile, network, type))
+
+        self.config[self.ROOT][profile]['sriov_provider_networks'][network]['type'] = type
+
+    def is_sriov_network_trusted(self, profile, network):
+        """
+        Is SR-IOV provider network trusted (VF parameter)
+
+        Arguments:
+            The profile name
+            The SR-IOV network name
+
+        Returns:
+            True if VFs should be configured as trusted in this network
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        self._validate_network_is_sriov_provider_network(profile, network)
+
+        return self.config[self.ROOT][profile]['sriov_provider_networks'][network].get('trusted') is True
+
+    def is_sriov_network_type_caas(self, profile, network):
+        """
+        Is SR-IOV network type caas
+
+        Arguments:
+            The profile name
+            The SR-IOV network name
+
+        Returns:
+            True if SR-IOV network is for CaaS
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        self._validate_network_is_sriov_provider_network(profile, network)
+
+        return self.config[self.ROOT][profile]['sriov_provider_networks'][network].get('type') == 'caas'
+
+    def _validate_network_is_sriov_provider_network(self, profile, network):
+        if network not in self.get_profile_sriov_provider_networks(profile):
+            raise configerror.ConfigError(
+                'Profile %s has no SR-IOV provider network %s' %
+                (profile, network))
+
+    def get_profile(self, name):
+        """
+        Get the network profile data
+
+        Arguments:
+            The profile name
+
+        Returns:
+            A dict of network profile data
+
+        """
+        self.is_valid_profile(name)
+        return self.config[self.ROOT][name]
+
+    def dump(self):
+        """ Dump all network profiles data. """
+
+        self.validate_root()
+        return self.config[self.ROOT]
+
+    def add_profile(self, name, profile):
+        """ Add network profile.
+
+            Parameters
+            ----------
+            name : str, profile name.
+            profile : dict, profile data
+
+        """
+        if name in self.config[self.ROOT]:
+            raise configerror.ConfigError('Profile %s already exists' % name)
+
+        data = {}
+        data[name] = profile
+        self.config[self.ROOT].update(data)
+
+    def delete_profile(self, name):
+        """ Delete network profile.
+
+            Parameters
+            ----------
+            name : str, profile name.
+
+        """
+        self.is_valid_profile(name)
+        self.config[self.ROOT].pop(name)
+
+
+class MissingSriovProviderNetworks(configerror.ConfigError):
+    pass
