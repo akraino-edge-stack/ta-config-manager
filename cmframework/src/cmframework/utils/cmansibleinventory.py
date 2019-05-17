@@ -232,7 +232,7 @@ class AnsibleInventory(object):
             plugins = self.pluginloader.get_plugin_instances(self.confman, inventory, ownhost)
             if self._is_setup():
                 inventory.clear()
-            for name, plugin in plugins.iteritems():
+            for name, plugin in sorted(plugins.iteritems()):
                 if self._is_bootstrapping():
                     plugin.handle_bootstrapping()
                 elif self._is_provisioning():
