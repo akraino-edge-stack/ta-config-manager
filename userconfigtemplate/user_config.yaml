@@ -29,7 +29,7 @@
 ###        - Minor changes in template (e.g. new optional attributes or
 ###          changes in possible values, value ranges or default values)
 ###        - Backwards compatible
-version: 2.0.1
+version: 2.0.2
 
 ### Cloud name can consist of lower case letters, digits and dash (-).
 ### Name must start and end with a letter or a digit.
@@ -316,6 +316,9 @@ network_profiles:
             ### Provider network physical interface.
             ### Either Ethernet or bonding interface.
             #<interface_name1>:
+                ### Notes:
+                ### CaaS bond interfaces are configured as a Linux bond interfaces.
+
                 ### Provider networks on this interface.
                 ### Provider networks must be defined also in the networking:
                 ### provider_networks: configuration.
