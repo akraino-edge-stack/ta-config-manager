@@ -35,20 +35,29 @@ class AnsiblePlaybooks(object):
         postconfig_lists, postconfig_size = self._get_playbook_lists(self.postconfig_path)
         finalize_lists, finalize_size = self._get_playbook_lists(self.finalize_path)
 
-        number_of_playbooks = bootstrapping_size \
-                              + provisioning_size \
-                              + postconfig_size \
-                              + finalize_size
+        number_of_playbooks = bootstrapping_size+provisioning_size+postconfig_size+finalize_size
 
         playbook_percentage_value = 99.0 / number_of_playbooks
 
-        self._generate_playbook(bootstrapping_lists, self.bootstrapping_playbook, 0, playbook_percentage_value)
+        self._generate_playbook(bootstrapping_lists,
+                                self.bootstrapping_playbook,
+                                0,
+                                playbook_percentage_value)
+
         progress_start = bootstrapping_size*playbook_percentage_value
-        self._generate_playbook(provisioning_lists, self.provisioning_playbook, progress_start, playbook_percentage_value)
+        self._generate_playbook(provisioning_lists,
+                                self.provisioning_playbook,
+                                progress_start,
+                                playbook_percentage_value)
         progress_start = (bootstrapping_size+provisioning_size)*playbook_percentage_value
-        self._generate_playbook(postconfig_lists, self.postconfig_playbook, progress_start, playbook_percentage_value)
-        progress_start = (bootstrapping_size+provisioning_size+postconfig_size)*playbook_percentage_value
-        self._generate_playbook(finalize_lists, self.finalize_playbook, progress_start, playbook_percentage_value)
+        self._generate_playbook(postconfig_lists, self.postconfig_playbook,
+                                progress_start, playbook_percentage_value)
+        progress_start = (bootstrapping_size +
+                          provisioning_size+postconfig_size)*playbook_percentage_value
+        self._generate_playbook(finalize_lists,
+                                self.finalize_playbook,
+                                progress_start,
+                                playbook_percentage_value)
 
     def _get_playbook_lists(self, directory):
         graph = self._get_dependency_graph(directory)
