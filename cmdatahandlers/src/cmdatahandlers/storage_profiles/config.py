@@ -17,6 +17,10 @@ from cmdatahandlers.api import config
 from cmdatahandlers.api import utils
 
 
+BARE_LVM_MOUNT_DIR = "/var/lib/docker"
+BARE_LVM_MOUNT_OPT = "noatime,nodiratime,logbufs=8,pquota"
+
+
 class Config(config.Config):
     def __init__(self, confman):
         super(Config, self).__init__(confman)
@@ -257,7 +261,7 @@ class Config(config.Config):
 
             ConfigError in-case of an error
         """
-        return self._get_optional_attribute(profile, 'mount_options')
+        return BARE_LVM_MOUNT_OPT 
 
     def get_profile_bare_lvm_mount_dir(self, profile):
         """ get the mount_dir
@@ -274,7 +278,7 @@ class Config(config.Config):
 
             ConfigError in-case of an error
         """
-        return self._get_attribute(profile, 'mount_dir')
+        return BARE_LVM_MOUNT_DIR
 
     def get_profile_bare_lvm_lv_name(self, profile):
         """ get the lv_name
