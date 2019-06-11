@@ -472,17 +472,6 @@ storage_profiles:
         ### This parameter contains the name for the created LVM volume.
         #lv_name: <VALUE>
 
-        ### Mandatory
-        ### This parameter contains the directory where to mount
-        ### the backend of this profile.
-        #mount_dir: <VALUE>
-
-        ### Optional
-        ### This parameter contains the mount options used to mount
-        ### the backend. The format must be a valid fstab format.
-        ### By default it is empty.
-        #mount_options: <VALUE>
-
 host_os:
     ### The value of this parameter is used to protect the entire GRUB 2 menu structure of all the infrastructure nodes.
     ### The configured value should be a properly salted PBKDF2 (Password-Based Key Derivation Function 2) hash.
