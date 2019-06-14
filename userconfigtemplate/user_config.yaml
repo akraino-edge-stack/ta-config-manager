@@ -249,7 +249,7 @@ caas:
     encrypted_ca_key: '["<ENCRYPTED_CA_KEY>"]'
 
     ### This parameter defines the DNS domain served by the REC DNS server for example
-    ### in-cluster Kubernetes Services all belongs to this domain DNS queries. 
+    ### in-cluster Kubernetes Services all belongs to this domain DNS queries.
     ### Outside of this domain are either rejected, or forwarded to a configured upstream DNS server (if, any).
     ### The default value is: rec.io
     #dns_domain: "<VALUE>"
@@ -385,7 +385,11 @@ performance_profiles:
         ### Host CPU allocations.
         ### Any host CPUs that are not allocated for some specific purpose
         ### here will be automatically assigned by the system:
-        ### - All remaining CPUs are allocated for the host platform.
+        ### - If the node contains 'caas' in its service_profiles remaining
+        ###   CPUs are allocated for CaaS CPU pools. Remainder CaaS CPU CPUs
+        ###   allocated for default container execution.
+        ### - Any CPUs that don't fall into the above categories are allocated
+        ###   for the host platform.
 
         ### Optional. Allocate CPUs for the host platform.
         ### The configured counts determine the number of full CPU cores to
@@ -399,6 +403,18 @@ performance_profiles:
         #platform_cpus:
             #numa0: <COUNT>
             #numa1: <COUNT>
+
+        ### Optional. Create CPU pools in CaaS CPU manager.
+        ### Type of this parameter is dictionary, consisting of the following attributes:
+        ### - exclusive_pool_percentage
+        ### - shared_pool_percentage
+        ### Attributes are optional, but at least one of them shall be defined
+        ### if caas_cpu_pools is defined. There can't be overlaps between the pools.
+        ### Minimum allocation is 1 CPU, which means anything greater than 0
+        ### ensures 1 CPU allocation.
+        #caas_cpu_pools:
+            #exclusive_pool_percentage: <VALUE>
+            #shared_pool_percentage: <VALUE>
 
 ### Storage profiles
 storage_profiles:
