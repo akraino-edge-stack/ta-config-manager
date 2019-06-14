@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0789eb0_e0882b6c",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-14T08:31:05Z",
+      "side": 1,
+      "message": "I think I made Endre update this text in NCIR, could you port the crisp description here too?",
+      "revId": "93d4ca5394ef6e5bd83f0cc3dde758231a8cd1ba",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3169c23_69035d82",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-14T08:31:05Z",
+      "side": 1,
+      "message": "I think the overlap text is not valid, considering we allocate percentage based :)",
+      "revId": "93d4ca5394ef6e5bd83f0cc3dde758231a8cd1ba",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
