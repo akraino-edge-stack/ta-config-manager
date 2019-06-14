@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a3cd268_0651c00a",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 4
+      },
+      "lineNbr": 369,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-14T08:45:36Z",
+      "side": 1,
+      "message": "openstack is not valid in REC, right?\n\nand because of this, we might need to revisit the handling of this\nI\u0027m afraid we need a REC specific cmdatautil, which makes sure these types are by default set to CaaS in REC\n\nalternative would be changing the default value to CaaS type, but that messes up our own code right?",
+      "revId": "1f17acd01ac19d8be588ce7559cd0e5e848b6ecd",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
