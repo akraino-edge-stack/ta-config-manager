@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ab56a90_9f893236",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-06-14T12:50:38Z",
+      "side": 1,
+      "message": "\u003e I think I made Endre update this text in NCIR, could you port the crisp description here too?\n\nI have a sense user_config requires more sync than this. And I believe we have a candidate to do it. :)",
+      "parentUuid": "b0789eb0_e0882b6c",
+      "revId": "93d4ca5394ef6e5bd83f0cc3dde758231a8cd1ba",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3169c23_69035d82",
         "filename": "userconfigtemplate/user_config.yaml",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "93d4ca5394ef6e5bd83f0cc3dde758231a8cd1ba",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d4082e6_af47930f",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 412,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-06-14T12:50:38Z",
+      "side": 1,
+      "message": "\u003e I think the overlap text is not valid, considering we allocate percentage based :)\n\nRephrased.",
+      "parentUuid": "c3169c23_69035d82",
+      "revId": "93d4ca5394ef6e5bd83f0cc3dde758231a8cd1ba",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
     }
   ]
 }
