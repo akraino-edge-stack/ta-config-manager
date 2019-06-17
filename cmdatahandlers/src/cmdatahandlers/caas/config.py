@@ -22,6 +22,10 @@ import jinja2
 CAAS_CONFIG_FILE_PATH = "/etc/cmframework/config/"
 CAAS_CONFIG_FILE = "caas.yaml"
 DEFAULT_CAAS_DNS_DOMAIN = "rec.io"
+VNF_EMBEDDED_SOFT_EVICTION_TRESHOLD = "300Mi"
+BM_SOFT_EVICTION_TRESHOLD = "4Gi"
+VNF_EMBEDDED_HARD_EVICTION_TRESHOLD = "200Mi"
+BM_HARD_EVICTION_TRESHOLD = "2Gi"
 
 
 class Config(config.Config):
@@ -158,3 +162,16 @@ class Config(config.Config):
     def get_kubernetes_domain(self):
         return 'kubernetes.default.svc.{}'.format(
             self.config.get(self.ROOT, {}).get('dns_domain', ''))
+
+    def get_caas_soft_eviction_threshold(self):
+        if self.is_vnf_embedded_deployment():
+            return VNF_EMBEDDED_SOFT_EVICTION_TRESHOLD
+        else:
+            return BM_SOFT_EVICTION_TRESHOLD
+
+    def get_caas_hard_eviction_threshold(self):
+        if self.is_vnf_embedded_deployment():
+            return VNF_EMBEDDED_HARD_EVICTION_TRESHOLD
+        else:
+            return BM_HARD_EVICTION_TRESHOLD
+
