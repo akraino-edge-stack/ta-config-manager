@@ -91,6 +91,11 @@ class AnsibleInventory(object):
         ips.append(hostvars[node]['ansible_host'])
         hostvars[node]['ssl_alt_name']['ip'] = ips
 
+        caasconf = self.confman.get_caas_config_handler()
+        hostvars[node]['system_reserved_memory'] = hostsconf.get_system_reserved_memory(node)
+        hostvars[node]['caas_soft_eviction_threshold'] = caasconf.get_caas_soft_eviction_threshold()
+        hostvars[node]['caas_hard_eviction_threshold'] = caasconf.get_caas_hard_eviction_threshold()
+
     def set_caas_master_data(self, hostvars, node, caasconf, hostsconf):
         dns = hostvars[node]['ssl_alt_name']['dns']
         dns.append(caasconf.get_kubernetes_domain())
