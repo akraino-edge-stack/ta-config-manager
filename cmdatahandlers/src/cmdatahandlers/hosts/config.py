@@ -19,6 +19,10 @@ from cmdatahandlers.api import config
 from cmdatahandlers.api import utils
 from serviceprofiles import profiles
 
+VNF_EMBEDDED_RESERVED_MEMORY = "512Mi"
+DUAL_VIM_CONTROLLER_RESERVED_MEMORY = "64Gi"
+DUAL_VIM_DEFAULT_RESERVED_MEMORY = "32Gi"
+MIDDLEWARE_RESERVED_MEMORY = "12Gi"
 
 class Config(config.Config):
     def __init__(self, confman):
@@ -808,8 +812,29 @@ class Config(config.Config):
         osd_disks = filter(lambda disk: disk.get('osd_disk', False), caas_disks)
         return map(lambda disk: _get_path_for_virtio_id(disk), osd_disks)
 
+    def get_system_reserved_memory(self, hostname):
+        caasconf = self.confman.get_caas_config_handler()
+        if caasconf.is_vnf_embedded_deployment():
+            return VNF_EMBEDDED_RESERVED_MEMORY
+        
+        profiles = self.get_service_profiles(hostname)
+        if 'controller' in profiles:
+            return DUAL_VIM_CONTROLLER_RESERVED_MEMORY
+        if 'compute' in profiles:
+            return DUAL_VIM_DEFAULT_RESERVED_MEMORY
+
+        return self.config.get(self.ROOT, {}).get('middleware_reserved_memory', 
+                                                   MIDDLEWARE_RESERVED_MEMORY)
+
+    def set_default_reserved_memory_to_all_hosts(self, def_memory)
+        self.get_hosts()
+        for host in hosts:
+            self.config[self.ROOT][host]['middleware_reserved_memory'] = def_memory
+
 
 def _get_path_for_virtio_id(disk):
     disk_id = disk.get('id', '')
     if disk_id:
         return "/dev/disk/by-id/virtio-{}".format(disk_id[:20])
+
+
