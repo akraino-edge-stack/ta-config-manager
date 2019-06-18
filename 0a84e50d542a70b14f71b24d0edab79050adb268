@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26e0a28a_ae09cc0f",
+        "filename": "cmdatahandlers/src/cmdatahandlers/hosts/config.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-18T13:48:28Z",
+      "side": 1,
+      "message": "we don\u0027t really need 12GB here, as we don\u0027t have the whole middleware\nthis too, might need to become a rechandler overwritten config parameter, rather than a constant",
+      "revId": "0a84e50d542a70b14f71b24d0edab79050adb268",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
