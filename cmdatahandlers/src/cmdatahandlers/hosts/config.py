@@ -827,8 +827,7 @@ class Config(config.Config):
                                                    MIDDLEWARE_RESERVED_MEMORY)
 
     def set_default_reserved_memory_to_all_hosts(self, def_memory):
-        self.get_hosts()
-        for host in hosts:
+        for host in self.get_hosts():
             self.config[self.ROOT][host]['middleware_reserved_memory'] = def_memory
 
 
