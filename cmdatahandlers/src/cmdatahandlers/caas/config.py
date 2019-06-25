@@ -22,10 +22,10 @@ import jinja2
 CAAS_CONFIG_FILE_PATH = "/etc/cmframework/config/"
 CAAS_CONFIG_FILE = "caas.yaml"
 DEFAULT_CAAS_DNS_DOMAIN = "rec.io"
-VNF_EMBEDDED_SOFT_EVICTION_TRESHOLD = "300Mi"
-BM_SOFT_EVICTION_TRESHOLD = "4Gi"
-VNF_EMBEDDED_HARD_EVICTION_TRESHOLD = "200Mi"
-BM_HARD_EVICTION_TRESHOLD = "2Gi"
+VNF_EMBEDDED_SOFT_EVICTION_THRESHOLD = "300Mi"
+BM_SOFT_EVICTION_THRESHOLD = "4Gi"
+VNF_EMBEDDED_HARD_EVICTION_THRESHOLD = "200Mi"
+BM_HARD_EVICTION_THRESHOLD = "2Gi"
 
 
 class Config(config.Config):
@@ -96,7 +96,7 @@ class Config(config.Config):
         self.set_static_config()
 
     def is_vnf_embedded_deployment(self):
-        return (self.get_caas_only() and self.get_vnf_flag())
+        return self.get_caas_only() and self.get_vnf_flag()
 
     def get_vnf_flag(self):
         return bool(self.config.get(self.ROOT, {}).get('vnf_embedded_deployment',
@@ -165,13 +165,12 @@ class Config(config.Config):
 
     def get_caas_soft_eviction_threshold(self):
         if self.is_vnf_embedded_deployment():
-            return VNF_EMBEDDED_SOFT_EVICTION_TRESHOLD
+            return VNF_EMBEDDED_SOFT_EVICTION_THRESHOLD
         else:
-            return BM_SOFT_EVICTION_TRESHOLD
+            return BM_SOFT_EVICTION_THRESHOLD
 
     def get_caas_hard_eviction_threshold(self):
         if self.is_vnf_embedded_deployment():
-            return VNF_EMBEDDED_HARD_EVICTION_TRESHOLD
+            return VNF_EMBEDDED_HARD_EVICTION_THRESHOLD
         else:
-            return BM_HARD_EVICTION_TRESHOLD
-
+            return BM_HARD_EVICTION_THRESHOLD
