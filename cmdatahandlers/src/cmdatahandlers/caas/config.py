@@ -35,6 +35,7 @@ class Config(config.Config):
         super(Config, self).__init__(confman)
         self.ROOT = 'cloud.caas'
         self.DOMAIN = 'caas'
+        self.INFRA_LOG = 'infra_log_store'
 
     def init(self):
         pass
@@ -174,4 +175,29 @@ class Config(config.Config):
             return VNF_EMBEDDED_HARD_EVICTION_TRESHOLD
         else:
             return BM_HARD_EVICTION_TRESHOLD
+
+    def get_infra_log_store(self):
+        """
+        Get the network profiles list
+
+        Returns:
+            A list of infra log store values
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        self.validate_root()
+        return self.config[self.ROOT].values()
+
+    def set_infra_log_store(self, log_type='elasticsearch'):
+        """
+        Set set_infra_log_store
+
+        Arguments:
+            logging plugin type, which defaults to elasticsearch
+
+        Raises:
+            ConfigError in-case of an error
+        """
+        self.config[self.ROOT][self.INFRA_LOG] = log_type
 
