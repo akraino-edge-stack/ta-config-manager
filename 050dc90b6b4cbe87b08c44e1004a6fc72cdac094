@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93bbfe8d_1781ed4d",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-26T07:50:02Z",
+      "side": 1,
+      "message": "generic def get_caas_parameter(self, parameter): was introduced so we don\u0027t need attributes specific getters anymore\ncan it be used?",
+      "revId": "050dc90b6b4cbe87b08c44e1004a6fc72cdac094",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b745a4d_78c6f37a",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-26T07:50:02Z",
+      "side": 1,
+      "message": "if there is no special logic inside a setter, then it is not really needed\nyou can just directly set the value into the object from the caller, considering it is public",
+      "revId": "050dc90b6b4cbe87b08c44e1004a6fc72cdac094",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42e599e8_882fc7d4",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-06-26T07:50:02Z",
+      "side": 1,
+      "message": "why does INFRA_LOG need to be a persistent member?",
+      "revId": "050dc90b6b4cbe87b08c44e1004a6fc72cdac094",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
