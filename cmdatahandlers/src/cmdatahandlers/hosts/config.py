@@ -82,6 +82,31 @@ class Config(config.Config):
             cidr = netconf.get_network_cidr(hwmgmtnet, domain)
             utils.validate_ip_in_network(ip, cidr)
 
+    def get_hwmgmt_priv_level(self, hostname):
+        """get the hwmgmt IPMI privilege level.  Defaults to ADMINISTRATOR
+
+           Arguments:
+
+           hostname: The name of the node
+
+           Return:
+
+           The prvilege level, or ADMINISTRATOR if unspecified
+
+           Raise:
+
+           ConfigError in-case of an error
+        """
+        self._validate_hostname(hostname)
+
+        if 'hwmgmt' not in self.config[self.ROOT][hostname]:
+            raise configerror.ConfigError('No hwmgmt info defined for host')
+
+        if 'priv_level' not in self.config[self.ROOT][hostname]['hwmgmt']:
+            return 'ADMINISTRATOR'
+
+        return self.config[self.ROOT][hostname]['hwmgmt']['priv_level']
+
     def _validate_service_profiles(self, hostname):
         node_profiles = self.get_service_profiles(hostname)
         utils.validate_list_items_unique(node_profiles)
