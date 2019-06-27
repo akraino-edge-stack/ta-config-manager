@@ -26,6 +26,7 @@ VNF_EMBEDDED_SOFT_EVICTION_THRESHOLD = "300Mi"
 BM_SOFT_EVICTION_THRESHOLD = "4Gi"
 VNF_EMBEDDED_HARD_EVICTION_THRESHOLD = "200Mi"
 BM_HARD_EVICTION_THRESHOLD = "2Gi"
+DEFAULT_CAAS_INFRA_LOG_TYPE = 'remote_syslog'
 
 
 class Config(config.Config):
@@ -62,6 +63,8 @@ class Config(config.Config):
         self.config[self.ROOT]['flavour'] = self.flavour_set()
         if not self.config[self.ROOT].get('dns_domain', ""):
             self.config[self.ROOT]['dns_domain'] = DEFAULT_CAAS_DNS_DOMAIN
+        if not self.get_caas_parameter('infra_log_store'):
+            self.config[self.ROOT]['infra_log_store'] = DEFAULT_CAAS_INFRA_LOG_TYPE
 
     def set_static_config(self):
         try:
