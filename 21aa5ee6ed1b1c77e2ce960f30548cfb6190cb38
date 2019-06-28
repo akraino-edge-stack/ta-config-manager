@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "eba22126_c79f7efc",
+        "filename": "cmdatahandlers/src/cmdatahandlers/hosts/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-06-28T13:38:00Z",
+      "side": 1,
+      "message": "Good, thanks.",
+      "parentUuid": "7d283c64_4cf0fce5",
+      "range": {
+        "startLine": 105,
+        "startChar": 0,
+        "endLine": 108,
+        "endChar": 71
+      },
+      "revId": "21aa5ee6ed1b1c77e2ce960f30548cfb6190cb38",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba88f710_7133c69c",
         "filename": "userconfigtemplate/user_config.yaml",
         "patchSetId": 1
