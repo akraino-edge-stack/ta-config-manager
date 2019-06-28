@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "ba88f710_7133c69c",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 184
+      },
+      "writtenOn": "2019-06-28T06:57:12Z",
+      "side": 1,
+      "message": "This should be 2.0.3\nPlease update the version-validator also: https://gerrit.akraino.org/r/gitweb?p\u003dta/cm-plugins.git;a\u003dblob;f\u003dvalidators/src/VersionValidation.py;h\u003df6e891aa9119096d5b8216f5efc5f2bab8652742;hb\u003dHEAD",
+      "revId": "21aa5ee6ed1b1c77e2ce960f30548cfb6190cb38",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9e8e2d8f_4dae1219",
         "filename": "userconfigtemplate/user_config.yaml",
         "patchSetId": 1
