@@ -59,12 +59,12 @@ class Config(config.Config):
         if utils.is_virtualized():
             self.config[self.ROOT]['vnf_embedded_deployment'] = self.get_vnf_flag()
         user_conf = self.confman.get_users_config_handler()
-        self.config[self.ROOT]['helm_home'] = "/home/" + user_conf.get_admin_user() + "/.helm"
-        self.config[self.ROOT]['flavour'] = self.flavour_set()
-        if not self.config[self.ROOT].get('dns_domain', ""):
-            self.config[self.ROOT]['dns_domain'] = DEFAULT_CAAS_DNS_DOMAIN
+        self.set_caas_parameter('helm_home', "/home/{}/.helm".format(user_conf.get_admin_user()))
+        self.set_caas_parameter('flavour', self.flavour_set())
+        if not self.get_caas_parameter('dns_domain'):
+            self.set_caas_parameter('dns_domain', DEFAULT_CAAS_DNS_DOMAIN)
         if not self.get_caas_parameter('infra_log_store'):
-            self.config[self.ROOT]['infra_log_store'] = DEFAULT_CAAS_INFRA_LOG_TYPE
+            self.set_caas_parameter('infra_log_store', DEFAULT_CAAS_INFRA_LOG_TYPE)
         if not self.get_caas_parameter('log_forwarding'):
             self.set_caas_parameter('log_forwarding', [])
 
@@ -82,17 +82,18 @@ class Config(config.Config):
         except Exception:
             raise configerror.ConfigError("Unexpected issue occured!")
 
-    def _template_config(self, template, base_config, initial_data):
+    @staticmethod
+    def _template_config(template, base_config, initial_data):
         config_data = initial_data.copy()
         config_data.update(base_config)
-        outputText = template.render(config_data)
-        previousOutputText = ""
-        while outputText != previousOutputText:
-            config_data = yaml.load(outputText)
+        output_text = template.render(config_data)
+        previous_output_text = ""
+        while output_text != previous_output_text:
+            config_data = yaml.load(output_text)
             config_data.update(base_config)
-            outputText = template.render(config_data)
-            previousOutputText = outputText
-        return yaml.load(outputText)
+            output_text = template.render(config_data)
+            previous_output_text = output_text
+        return yaml.load(output_text)
 
     def add_defaults(self):
         if not self.config.get('cloud.caas', ''):
@@ -163,6 +164,9 @@ class Config(config.Config):
 
     def get_caas_parameter(self, parameter):
         return self.config.get(self.ROOT, {}).get(parameter, '')
+
+    def set_caas_parameter(self, parameter, value):
+        self.config[self.ROOT][parameter] = value
 
     def get_kubernetes_domain(self):
         return 'kubernetes.default.svc.{}'.format(
