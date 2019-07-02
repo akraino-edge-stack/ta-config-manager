@@ -18,6 +18,8 @@ from cmdatahandlers.api import configerror
 from serviceprofiles import profiles
 import yaml
 import jinja2
+import string
+from random import choice
 
 CAAS_CONFIG_FILE_PATH = "/etc/cmframework/config/"
 CAAS_CONFIG_FILE = "caas.yaml"
@@ -26,6 +28,7 @@ VNF_EMBEDDED_SOFT_EVICTION_THRESHOLD = "300Mi"
 BM_SOFT_EVICTION_THRESHOLD = "4Gi"
 VNF_EMBEDDED_HARD_EVICTION_THRESHOLD = "200Mi"
 BM_HARD_EVICTION_THRESHOLD = "2Gi"
+ADMIN_PWD_LENGTH = 20
 DEFAULT_CAAS_INFRA_LOG_TYPE = 'remote_syslog'
 
 
@@ -40,7 +43,8 @@ class Config(config.Config):
     def init(self):
         pass
 
-    def validate(self):
+    @staticmethod
+    def validate():
         print("validate")
 
     def flavour_set(self):
@@ -49,11 +53,7 @@ class Config(config.Config):
         for host in hostsconf.get_hosts():
             if 'caas_master' in hostsconf.get_service_profiles(host):
                 caas_masters.append(host)
-
-        if len(caas_masters) > 1:
-            return "multi"
-        else:
-            return "single"
+        return "multi" if len(caas_masters) > 1 else "single"
 
     def set_dynamic_config(self):
         if utils.is_virtualized():
@@ -80,7 +80,15 @@ class Config(config.Config):
         except jinja2.exceptions.TemplateNotFound:
             return
         except Exception:
-            raise configerror.ConfigError("Unexpected issue occured!")
+            raise configerror.ConfigError("Unexpected issue has occured!")
+
+    def set_post_config(self):
+        self.config[self.ROOT]['swift_credential'] = \
+            dict(
+                user=self.get_caas_parameter('swift_credential').get('user'),
+                tenant=self.get_caas_parameter('swift_credential').get('tenant'),
+                password=self.generate_pwd(ADMIN_PWD_LENGTH)
+            )
 
     @staticmethod
     def _template_config(template, base_config, initial_data):
@@ -100,6 +108,7 @@ class Config(config.Config):
             return
         self.set_dynamic_config()
         self.set_static_config()
+        self.set_post_config()
 
     def is_vnf_embedded_deployment(self):
         return self.get_caas_only() and self.get_vnf_flag()
@@ -167,6 +176,11 @@ class Config(config.Config):
 
     def set_caas_parameter(self, parameter, value):
         self.config[self.ROOT][parameter] = value
+
+    @staticmethod
+    def generate_pwd(pwd_length):
+        character_pool = string.ascii_letters + string.digits
+        return ''.join(choice(character_pool) for i in range(pwd_length))
 
     def get_kubernetes_domain(self):
         return 'kubernetes.default.svc.{}'.format(
