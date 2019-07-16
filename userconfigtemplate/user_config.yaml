@@ -29,7 +29,7 @@
 ###        - Minor changes in template (e.g. new optional attributes or
 ###          changes in possible values, value ranges or default values)
 ###        - Backwards compatible
-version: 2.0.2
+version: 2.0.3
 
 ### Cloud name can consist of lower case letters, digits and dash (-).
 ### Name must start and end with a letter or a digit.
@@ -253,6 +253,11 @@ caas:
     ### Outside of this domain are either rejected, or forwarded to a configured upstream DNS server (if, any).
     ### The default value is: rec.io
     #dns_domain: "<VALUE>"
+
+    ### Tenant networks.
+    ### This list should contain all CaaS tenant network names from the provider networks
+    ### configuration. Do not include SR-IOV networks.
+    #tenant_networks: ["tenant_net1", "tenant_net2"]
 
 ### Storage configuration
 storage:
