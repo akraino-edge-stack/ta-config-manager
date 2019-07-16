@@ -254,6 +254,13 @@ caas:
     ### The default value is: rec.io
     #dns_domain: "<VALUE>"
 
+    ### Tenant networks.
+    ### This list contains all provider networks dedicated to be used by CaaS tenant users.
+    ### These provider networks needs to binded homogenously to all CaaS hosts and the
+    ### provider network type must be caas.
+    ### SR-IOV provider networks also supported.
+    #tenant_networks: ["tenant_net1", "tenant_net2"]
+
 ### Storage configuration
 storage:
     #backends:
