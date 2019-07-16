@@ -29,7 +29,7 @@
 ###        - Minor changes in template (e.g. new optional attributes or
 ###          changes in possible values, value ranges or default values)
 ###        - Backwards compatible
-version: 2.0.2
+version: 2.0.3
 
 ### Cloud name can consist of lower case letters, digits and dash (-).
 ### Name must start and end with a letter or a digit.
@@ -562,7 +562,10 @@ hosts:
             address: <VALUE>
             user: <VALUE>
             password: <VALUE>
-
+            # Optional: the IPMI privilege level to request.
+            # Typical values include 'USER', 'OPERATOR', 'ADMINISTRATOR'
+            # default is 'ADMINISTRATOR' if unspecified.
+            # priv_level: <VALUE>
         ### Optional parameter needed for virtual deployment to identify the
         ### nodes the mac address for the provisioning interface
         #mgmt_mac: [<VALUE1>, <VALUE2>, ...]
