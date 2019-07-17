@@ -854,19 +854,26 @@ class Config(config.Config):
         caasconf = self.confman.get_caas_config_handler()
         if caasconf.is_vnf_embedded_deployment():
             return VNF_EMBEDDED_RESERVED_MEMORY
-        
+
         profiles = self.get_service_profiles(hostname)
         if 'controller' in profiles:
             return DUAL_VIM_CONTROLLER_RESERVED_MEMORY
         if 'compute' in profiles:
             return DUAL_VIM_DEFAULT_RESERVED_MEMORY
 
-        return self.config.get(self.ROOT, {}).get('middleware_reserved_memory', 
+        return self.config.get(self.ROOT, {}).get('middleware_reserved_memory',
                                                    MIDDLEWARE_RESERVED_MEMORY)
 
     def set_default_reserved_memory_to_all_hosts(self, def_memory):
         for host in self.get_hosts():
             self.config[self.ROOT][host]['middleware_reserved_memory'] = def_memory
+
+    def set_default_ipmi_priv_level_to_all_hosts(self, def_priv):
+        for host in self.get_hosts():
+            if 'hwmgmt' not in self.config[self.ROOT][host]:
+                self.config[self.ROOT][host]['hwmgmt'] = {'priv_level': def_priv}
+            elif 'priv_level' not in self.config[self.ROOT][host]['hwmgmt']:
+                self.config[self.ROOT][host]['hwmgmt']['priv_level'] = def_priv
 
 
 def _get_path_for_virtio_id(disk):
