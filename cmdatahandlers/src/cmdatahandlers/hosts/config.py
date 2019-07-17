@@ -868,6 +868,13 @@ class Config(config.Config):
         for host in self.get_hosts():
             self.config[self.ROOT][host]['middleware_reserved_memory'] = def_memory
 
+    def set_default_ipmi_priv_level_to_all_hosts(self, def_priv):
+        for host in self.get_hosts():
+            if 'hwmgmt' not in self.config[self.ROOT][host]:
+                self.config[self.ROOT][host]['hwmgmt'] = {'priv_level': def_priv}
+            elif 'priv_level' not in in self.config[self.ROOT][host]['hwmgmt']:    
+                self.config[self.ROOT][host]['hwmgmt']['priv_level'] = def_priv
+
 
 def _get_path_for_virtio_id(disk):
     disk_id = disk.get('id', '')
