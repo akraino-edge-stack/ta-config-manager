@@ -52,6 +52,24 @@
       "revId": "c8a5c2bf6de58ed520382985dd2511cd4e887cb5",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e21281c_99d87624",
+        "filename": "cmdatahandlers/src/cmdatahandlers/hosts/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-07-17T19:44:52Z",
+      "side": 1,
+      "message": "so just to clarify: the time the userconfighandlers are called the data from the user config is already parsed into the CM. the userconfighandlers just make some changes to it internally, before it gets commited",
+      "parentUuid": "49a0df57_21c125e2",
+      "revId": "c8a5c2bf6de58ed520382985dd2511cd4e887cb5",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
     }
   ]
 }
