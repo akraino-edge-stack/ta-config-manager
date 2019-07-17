@@ -67,6 +67,8 @@ class Config(config.Config):
             self.set_caas_parameter('infra_log_store', DEFAULT_CAAS_INFRA_LOG_TYPE)
         if not self.get_caas_parameter('log_forwarding'):
             self.set_caas_parameter('log_forwarding', [])
+        hostsconf = self.confman.get_hosts_config_handler()
+        hostsconf.set_nodeindex()
 
     def set_static_config(self):
         try:

@@ -133,6 +133,13 @@ def is_virtualized():
             return True
     return False
 
+def get_installation_host_name(hostsconf):
+    hostname = 'controller-1'
+    if not is_virtualized():
+        ownip = get_own_hwmgmt_ip()
+        hostname = hostsconf.get_host_having_hwmgmt_address(ownip)
+    return hostname
+
 def flatten_config_data(jsondata):
     result = {}
     for key, value in jsondata.iteritems():

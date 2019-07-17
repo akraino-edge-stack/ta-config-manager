@@ -196,8 +196,24 @@ class Config(config.Config):
 
         return service_profiles[0]
 
+    def set_nodeindex(self):
+        hostsconf = self.confman.get_hosts_config_handler()
+        install_host = utils.get_installation_host_name(hostsconf)
+        self.config[self.ROOT][install_host]['caas_nodeindex'] = 1
+
+        masters = self.get_service_profile_hosts('caas_master')
+        masters.remove(install_host)
+        self._set_nodeindexes(masters, 2)
+        self._set_nodeindexes(self.get_service_profile_hosts('caas_worker'), 1)
+
+    def _set_nodeindexes(self, hosts, base_index):
+        index = base_index
+        for host in hosts:
+            self.config[self.ROOT][host]['caas_nodeindex'] = index
+            index += 1
+
     def get_nodeindex(self, hostname):
-        return re.search(r'[-_](\d+)$', hostname).group(1)
+        return self.config[self.ROOT][hostname]['caas_nodeindex']
 
     def get_nodename(self, hostname):
         return "{}{}".format(self.get_nodetype(hostname), self.get_nodeindex(hostname))
