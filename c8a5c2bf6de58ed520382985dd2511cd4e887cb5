@@ -16,6 +16,24 @@
       "revId": "c8a5c2bf6de58ed520382985dd2511cd4e887cb5",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31e4cb63_a4778cd6",
+        "filename": "cmdatahandlers/src/cmdatahandlers/hosts/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 180
+      },
+      "writtenOn": "2019-07-17T19:39:04Z",
+      "side": 1,
+      "message": "I\u0027d been following the pattern of set_default_reserved_memory (immediately above this), which sets the value unconditionally; I was presuming this happened before any actual configuration is read in.  Is that wrong?  If so, I\u0027ll fix this to check first, as you suggest.",
+      "parentUuid": "4374ebc6_5eb20662",
+      "revId": "c8a5c2bf6de58ed520382985dd2511cd4e887cb5",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
     }
   ]
 }
