@@ -70,6 +70,24 @@
       "revId": "c8a5c2bf6de58ed520382985dd2511cd4e887cb5",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d8b43ac_921b6058",
+        "filename": "cmdatahandlers/src/cmdatahandlers/hosts/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 180
+      },
+      "writtenOn": "2019-07-18T13:10:55Z",
+      "side": 1,
+      "message": "ah, ok.  sorry i\u0027m clueless about this.  fixed.",
+      "parentUuid": "7e21281c_99d87624",
+      "revId": "c8a5c2bf6de58ed520382985dd2511cd4e887cb5",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
     }
   ]
 }
