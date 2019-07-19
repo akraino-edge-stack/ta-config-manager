@@ -16,6 +16,24 @@
       "revId": "77309ad5e0dc4b23f6149add3f1258530ef38695",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23949681_6dd46ab7",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-07-19T14:29:06Z",
+      "side": 1,
+      "message": "Rephrased in PS #2",
+      "parentUuid": "1bc5f48f_fba07b52",
+      "revId": "77309ad5e0dc4b23f6149add3f1258530ef38695",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
     }
   ]
 }
