@@ -61,6 +61,9 @@ class Config(config.Config):
         user_conf = self.confman.get_users_config_handler()
         self.set_caas_parameter('helm_home', "/home/{}/.helm".format(user_conf.get_admin_user()))
         self.set_caas_parameter('flavour', self.flavour_set())
+        admin_pwd = self.get_caas_parameter('admin_password')
+        self.config[self.ROOT]['admin_password'] = \
+                admin_pwd if admin_pwd != '' else self.generate_pwd(ADMIN_PWD_LENGTH)
         if not self.get_caas_parameter('dns_domain'):
             self.set_caas_parameter('dns_domain', DEFAULT_CAAS_DNS_DOMAIN)
         if not self.get_caas_parameter('infra_log_store'):
@@ -178,6 +181,9 @@ class Config(config.Config):
 
     def set_caas_parameter(self, parameter, value):
         self.config[self.ROOT][parameter] = value
+
+    def get_admin_password(self):
+        return self.config.get(self.ROOT, {}).get('admin_password')
 
     @staticmethod
     def generate_pwd(pwd_length):

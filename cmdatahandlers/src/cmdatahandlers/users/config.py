@@ -110,16 +110,3 @@ class Config(config.Config):
         self.config[self.ROOT]['admin_user_password'] = self.MASK
         self.config[self.ROOT]['initial_user_password'] = self.MASK
 
-    def get_admin_password(self):
-        """ get the admin password
-
-            Return:
-
-            The admin password
-
-            Raise:
-
-            ConfigError in-case of an error
-        """
-        return self.config[self.ROOT]['admin_password']
-
