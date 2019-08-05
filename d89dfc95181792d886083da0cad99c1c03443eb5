@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bbe67f4c_a07dc334",
+        "filename": "cmdatahandlers/src/cmdatahandlers/hosts/config.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 186
+      },
+      "writtenOn": "2019-08-05T08:29:16Z",
+      "side": 1,
+      "message": "During test execution, TCs load cmdatahandlers, and all of the TCs fails, because this is invalid syntax.",
+      "range": {
+        "startLine": 875,
+        "startChar": 34,
+        "endLine": 875,
+        "endChar": 40
+      },
+      "revId": "d89dfc95181792d886083da0cad99c1c03443eb5",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
