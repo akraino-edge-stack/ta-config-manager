@@ -30,4 +30,13 @@ class Config(config.Config):
     def mask_sensitive_data(self):
         self.config[self.ROOT]['grub2_password'] = self.MASK
 
+    def add_defaults(self):
+        self.config[self.ROOT]['max_audit_size'] = self.get_max_audit_size()
+
+    def get_max_audit_size(self):
+        caasconf = self.confman.get_caas_config_handler()
+        if caasconf.is_hybrid_deployment() or caasconf.get_caas_only():
+            return caasconf.get_audit_disk_limit()*(1-caasconf.get_audit_disk_ratio())
+        else:
+            return caasconf.get_audit_disk_limit()
 
