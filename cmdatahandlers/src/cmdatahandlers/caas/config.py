@@ -30,6 +30,8 @@ VNF_EMBEDDED_HARD_EVICTION_THRESHOLD = "200Mi"
 BM_HARD_EVICTION_THRESHOLD = "2Gi"
 ADMIN_PWD_LENGTH = 20
 DEFAULT_CAAS_INFRA_LOG_TYPE = 'elasticsearch'
+AUDIT_DISK_LIMIT = 0.87
+CAAS_AUDIT_DISK_RATIO = 0.25
 
 
 class Config(config.Config):
@@ -54,6 +56,9 @@ class Config(config.Config):
             if 'caas_master' in hostsconf.get_service_profiles(host):
                 caas_masters.append(host)
         return "multi" if len(caas_masters) > 1 else "single"
+ 
+    def get_caas_max_audit_size(self):
+        return self.get_audit_disk_limit()*self.get_audit_disk_ratio()
 
     def set_dynamic_config(self):
         if utils.is_virtualized():
@@ -61,6 +66,7 @@ class Config(config.Config):
         user_conf = self.confman.get_users_config_handler()
         self.set_caas_parameter('helm_home', "/home/{}/.helm".format(user_conf.get_admin_user()))
         self.set_caas_parameter('flavour', self.flavour_set())
+        self.config[self.ROOT]['caas_max_audit_size'] = self.get_caas_max_audit_size()
         admin_pwd = self.get_caas_parameter('admin_password')
         self.config[self.ROOT]['admin_password'] = \
                 admin_pwd if admin_pwd != '' else self.generate_pwd(ADMIN_PWD_LENGTH)
@@ -205,3 +211,9 @@ class Config(config.Config):
             return VNF_EMBEDDED_HARD_EVICTION_THRESHOLD
         else:
             return BM_HARD_EVICTION_THRESHOLD
+
+    def get_audit_disk_ratio(self):
+        return CAAS_AUDIT_DISK_RATIO
+
+    def get_audit_disk_limit(self):
+        return AUDIT_DISK_LIMIT
