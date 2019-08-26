@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "baa8071d_e8dde292",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 261
+      },
+      "writtenOn": "2019-08-26T09:54:24Z",
+      "side": 1,
+      "message": "This whole correction belongs to a bugticket of a hibrid problem. So if we do not need this, we do not need any of this correction!",
+      "parentUuid": "a0176a66_0c3acbbc",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "78cbadcd_f4e2ace0",
         "filename": "cmdatahandlers/src/cmdatahandlers/host_os/config.py",
         "patchSetId": 2
