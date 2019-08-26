@@ -86,6 +86,30 @@
       "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e49e2ab7_7115ccb0",
+        "filename": "cmdatahandlers/src/cmdatahandlers/host_os/config.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 261
+      },
+      "writtenOn": "2019-08-26T12:05:21Z",
+      "side": 1,
+      "message": "we do not need these funcions",
+      "parentUuid": "78cbadcd_f4e2ace0",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
     }
   ]
 }
