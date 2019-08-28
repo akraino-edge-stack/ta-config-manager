@@ -106,6 +106,15 @@ class Config(config.Config):
         """
         return self.config[self.ROOT]['initial_user_password']
 
+    def get_admin_user_authorized_keys(self):
+        ''' Get the authorized public keys for the admin user
+
+            Return:
+
+            A list of authorized keys (strings), can be an empty list
+        '''
+        return self.config[self.ROOT].get('admin_user_authorized_keys', [])
+
     def mask_sensitive_data(self):
         self.config[self.ROOT]['admin_user_password'] = self.MASK
         self.config[self.ROOT]['initial_user_password'] = self.MASK
