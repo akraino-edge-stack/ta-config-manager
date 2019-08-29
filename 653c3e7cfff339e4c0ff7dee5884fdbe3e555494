@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac30b31b_a8cfe085",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 261
+      },
+      "writtenOn": "2019-08-29T13:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9ce05e2_ea3b4218",
+      "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0176a66_0c3acbbc",
         "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
         "patchSetId": 2
@@ -66,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "db67c2e1_106cc731",
+        "filename": "cmdatahandlers/src/cmdatahandlers/caas/config.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 261
+      },
+      "writtenOn": "2019-08-29T13:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baa8071d_e8dde292",
+      "range": {
+        "startLine": 61,
+        "startChar": 16,
+        "endLine": 61,
+        "endChar": 38
+      },
+      "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78cbadcd_f4e2ace0",
         "filename": "cmdatahandlers/src/cmdatahandlers/host_os/config.py",
         "patchSetId": 2
@@ -110,6 +152,30 @@
       "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05b3f342_d5cf878b",
+        "filename": "cmdatahandlers/src/cmdatahandlers/host_os/config.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 261
+      },
+      "writtenOn": "2019-08-29T13:18:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e49e2ab7_7115ccb0",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 50
+      },
+      "revId": "653c3e7cfff339e4c0ff7dee5884fdbe3e555494",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": false
     }
   ]
 }
