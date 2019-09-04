@@ -24,11 +24,15 @@ class Config(config.Config):
     HUGEPAGES = 'hugepages'
     PLATFORM_CPUS = 'platform_cpus'
     OVS_DPDK_CPUS = 'ovs_dpdk_cpus'
+    TUNING = 'tuning'
+    LOW_LATENCY_OPTIONS = 'low_latency_options'
     PROFILE_OPTIONS = {DEFAULT_HUGEPAGESZ: 'get_profile_default_hugepage_size',
                        HUGEPAGESZ: 'get_profile_hugepage_size',
                        HUGEPAGES: 'get_profile_hugepage_count',
                        PLATFORM_CPUS: 'get_platform_cpus',
-                       OVS_DPDK_CPUS: 'get_ovs_dpdk_cpus'}
+                       OVS_DPDK_CPUS: 'get_ovs_dpdk_cpus',
+                       TUNING: 'get_tuning',
+                       LOW_LATENCY_OPTIONS: 'get_low_latency_kcmd_options'}
 
     ERR_INVALID_PROFILE = 'Invalid profile name {}'
     ERR_MISSING_PROFILE_KEY = 'Profile {} does not have %s'
@@ -37,6 +41,9 @@ class Config(config.Config):
     ERR_MISSING_HUGEPAGES = ERR_MISSING_PROFILE_KEY % HUGEPAGES
     ERR_MISSING_PLATFORM_CPUS = ERR_MISSING_PROFILE_KEY % PLATFORM_CPUS
     ERR_MISSING_OVS_DPDK_CPUS = ERR_MISSING_PROFILE_KEY % OVS_DPDK_CPUS
+    ERR_MISSING_TUNING = ERR_MISSING_PROFILE_KEY % TUNING
+    ERR_INVALID_PROFILE_KEY = 'Profile {} got invalid option %s'
+    ERR_INVALID_LOW_LATENCY_OPTIONS = ERR_INVALID_PROFILE_KEY % LOW_LATENCY_OPTIONS
 
     @staticmethod
     def raise_error(context, err_type):
@@ -66,6 +73,7 @@ class Config(config.Config):
         self.get_profile_hugepage_count(profile)
         self.get_platform_cpus(profile)
         self.get_ovs_dpdk_cpus(profile)
+        self.get_tuning(profile)
 
     def is_valid_profile(self, profile):
         profiles = self.get_performance_profiles()
@@ -197,6 +205,72 @@ class Config(config.Config):
 
         return self.config[self.ROOT][profile][self.OVS_DPDK_CPUS]
 
+    def get_tuning(self, profile):
+        """ get performance tuning option
+
+            Parameters
+            ----------
+            profile_name : str
+                           Performance profile name.
+            Returns
+            -------
+            str
+                Performance tuning option.
+
+            Raises
+            ------
+            ConfigError
+        """
+        self.is_valid_profile(profile)
+        if self.TUNING not in self.config[self.ROOT][profile]:
+            self.raise_error(profile, self.ERR_MISSING_TUNING)
+
+        return self.config[self.ROOT][profile][self.TUNING]
+
+    def get_low_latency_kcmd_options(self, profile):
+        """ get low latency kernel cmd option
+
+            Parameters
+            ----------
+            profile_name : str
+                           Performance profile name.
+            Returns
+            -------
+            str
+                Low latency kernel cmd options.
+
+            Raises
+            ------
+            ConfigError
+        """
+        self.is_valid_profile(profile)
+        if self.LOW_LATENCY_OPTIONS not in self.config[self.ROOT][profile]:
+            return None
+
+        return self.config[self.ROOT][profile][self.LOW_LATENCY_OPTIONS]
+
+    def set_low_latency_kcmd_options(self, profile, options):
+        """ set low latency kernel cmd option
+
+            Parameters
+            ----------
+            profile_name : str
+                           Performance profile name.
+            Returns
+            -------
+            str
+                Low latency kernel cmd options.
+
+            Raises
+            ------
+            ConfigError
+        """
+        self.is_valid_profile(profile)
+        if not isinstance(options, list):
+            self.raise_error(profile, self.ERR_INVALID_LOW_LATENCY_OPTIONS)
+
+        self._fill_option_value(self.config[self.ROOT][profile], profile, self.LOW_LATENCY_OPTIONS, options)
+
     def dump(self):
         """ Dump all performaceprofiles data. """
 
@@ -213,7 +287,7 @@ class Config(config.Config):
 
     # pylint: disable=too-many-arguments
     def update(self, name, platform_cpus=None, ovs_dpdk_cpus=None, hugepages=None,
-               default_hugepagesz=None, hugepagesz=None):
+               default_hugepagesz=None, hugepagesz=None, tuning=None):
         """ Update performance profile, overwriting existing profile.
 
             Parameters
@@ -234,7 +308,9 @@ class Config(config.Config):
             hugepagesz : str, optional
                          Huge page size (the default value is '1G').
                          Valid values are '2M' and '1G'
-
+            tuning : str, optional
+                     Performance tuning option.
+                     Valid values are 'low_latency and 'standard' (default).
         """
         data = {}
         self._fill_option_value(data, name, 'platform_cpus', platform_cpus)
@@ -242,6 +318,7 @@ class Config(config.Config):
         self._fill_option_value(data, name, 'hugepages', hugepages)
         self._fill_option_value(data, name, 'default_hugepagesz', default_hugepagesz)
         self._fill_option_value(data, name, 'hugepagesz', hugepagesz)
+        self._fill_option_value(data, name, 'tuning', tuning)
         self.config[self.ROOT].update({name:data})
 
     def delete(self, name):
