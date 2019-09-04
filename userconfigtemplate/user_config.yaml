@@ -29,7 +29,7 @@
 ###        - Minor changes in template (e.g. new optional attributes or
 ###          changes in possible values, value ranges or default values)
 ###        - Backwards compatible
-version: 2.0.4
+version: 2.0.5
 
 ### Cloud name can consist of lower case letters, digits and dash (-).
 ### Name must start and end with a letter or a digit.
@@ -427,6 +427,11 @@ performance_profiles:
         #platform_cpus:
             #numa0: <COUNT>
             #numa1: <COUNT>
+
+        ### Optional. Performance tuning.
+        ### Valid values are low_latency and standard (default).
+        ### Note that low_latency mode will turn off power saving, etc
+        #tuning: <low_latency|standard>
 
         ### Optional. Create CPU pools in CaaS CPU manager.
         ### Type of this parameter is dictionary, consisting of the following attributes:
