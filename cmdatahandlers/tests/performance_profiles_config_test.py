@@ -26,15 +26,16 @@ class PerformanceProfilesConfigTest(TestCase):
                               'ovs_dpdk_cpus': {'numa0': 2, 'numa1': 2},
                               'default_hugepagesz': '1M',
                               'hugepagesz': '1G',
-                              'hugepages': 192
-                             }
-                   }
-    hosts_data = {'controller-1':{'service_profiles': ['controller']}}
+                              'hugepages': 192,
+                              'tuning': 'low_latency'
+                              }
+                    }
+    hosts_data = {'controller-1': {'service_profiles': ['controller']}}
 
     config = {'cloud.performance_profiles': profile_data,
               'cloud.hosts': hosts_data }
 
-    fail_profile ='dpdk_fail_profile'
+    fail_profile = 'dpdk_fail_profile'
     config_fail = {'cloud.performance_profiles': {fail_profile: {} },
                    'cloud.hosts': hosts_data }
 
@@ -107,6 +108,17 @@ class PerformanceProfilesConfigTest(TestCase):
         with self.assertRaisesRegexp(ConfigError, error_text):
             self.pp_handler_fail.get_ovs_dpdk_cpus(self.fail_profile)
 
+    def test_tuning(self):
+        tuning_data = self.pp_handler.get_tuning(self.profile)
+        expected_data = 'low_latency'
+        self.assertEqual(tuning_data, expected_data)
+
+    def test_tuning_raises_error(self):
+        error_text = "Profile {} does not have tuning".format(
+            self.fail_profile)
+        with self.assertRaisesRegexp(ConfigError, error_text):
+            self.pp_handler_fail.get_tuning(self.fail_profile)
+
     def test__fill_option_value(self):
         data = {}
         self.pp_handler._fill_option_value(data, self.profile, 'platform_cpus', None)
@@ -130,6 +142,8 @@ class PerformanceProfilesConfigTest(TestCase):
             h.get_profile_hugepage_size(profile)
         with self.assertRaisesRegexp(ConfigError, 'Profile niksnaks does not have default_hugepagesz'):
             h.get_profile_default_hugepage_size(profile)
+        with self.assertRaisesRegexp(ConfigError, 'Profile niksnaks does not have tuning'):
+            h.get_tuning(profile)
 
     def test_delete(self):
         cman = configmanager.ConfigManager({'cloud.performance_profiles': {}, 'cloud.hosts': self.hosts_data})
