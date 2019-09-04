@@ -16,30 +16,31 @@ from unittest import TestCase
 from cmdatahandlers.api import configmanager
 import cmdatahandlers.performance_profiles.config
 from cmdatahandlers.api.configerror import ConfigError
+import copy
 
 
 class PerformanceProfilesConfigTest(TestCase):
 
-
     profile = 'dpdk_profile'
-    profile_data = {profile: {'platform_cpus': {'numa0': 1, 'numa1': 1},
+    profile_data = { profile: {'platform_cpus': {'numa0': 1, 'numa1': 1},
                               'ovs_dpdk_cpus': {'numa0': 2, 'numa1': 2},
                               'default_hugepagesz': '1M',
                               'hugepagesz': '1G',
-                              'hugepages': 192
-                             }
-                   }
-    hosts_data = {'controller-1':{'service_profiles': ['controller']}}
+                              'hugepages': 192,
+                              'tuning': 'low_latency'
+                              }
+                    }
+    hosts_data = {'controller-1': {'service_profiles': ['controller']}}
 
     config = {'cloud.performance_profiles': profile_data,
               'cloud.hosts': hosts_data }
 
-    fail_profile ='dpdk_fail_profile'
+    fail_profile = 'dpdk_fail_profile'
     config_fail = {'cloud.performance_profiles': {fail_profile: {} },
                    'cloud.hosts': hosts_data }
 
     def setUp(self):
-        confman = configmanager.ConfigManager(self.config)
+        confman = configmanager.ConfigManager(copy.deepcopy(self.config))
         self.pp_handler = confman.get_performance_profiles_config_handler()
 
         confman_fail = configmanager.ConfigManager(self.config_fail)
@@ -107,6 +108,25 @@ class PerformanceProfilesConfigTest(TestCase):
         with self.assertRaisesRegexp(ConfigError, error_text):
             self.pp_handler_fail.get_ovs_dpdk_cpus(self.fail_profile)
 
+    def test_low_latency_kcmd_options(self):
+        expected_data = ["fancytuning", "thiswillmakeitfast"]
+        self.pp_handler.set_low_latency_kcmd_options(self.profile, expected_data)
+        low_latency_kcmd_data = self.pp_handler.get_low_latency_kcmd_options(self.profile)
+        print self
+        self.assertEqual(low_latency_kcmd_data, expected_data)
+
+    def test_missing_low_latency_kcmd_options(self):
+        expected_data = None
+        low_latency_kcmd_data = self.pp_handler.get_low_latency_kcmd_options(self.profile)
+        self.assertEqual(low_latency_kcmd_data, expected_data)
+
+    def test_invalid_low_latency_kcmd_options(self):
+        error_text = "Profile {} got invalid option low_latency_options".format(
+            self.profile)
+        with self.assertRaisesRegexp(ConfigError, error_text):
+            low_latency_kcmd_data = "this fancytuning is sadly invalid"
+            self.pp_handler.set_low_latency_kcmd_options(self.profile, low_latency_kcmd_data)
+
     def test__fill_option_value(self):
         data = {}
         self.pp_handler._fill_option_value(data, self.profile, 'platform_cpus', None)
@@ -130,6 +150,8 @@ class PerformanceProfilesConfigTest(TestCase):
             h.get_profile_hugepage_size(profile)
         with self.assertRaisesRegexp(ConfigError, 'Profile niksnaks does not have default_hugepagesz'):
             h.get_profile_default_hugepage_size(profile)
+        with self.assertRaisesRegexp(ConfigError, 'Profile niksnaks does not have tuning'):
+            h.get_tuning(profile)
 
     def test_delete(self):
         cman = configmanager.ConfigManager({'cloud.performance_profiles': {}, 'cloud.hosts': self.hosts_data})
