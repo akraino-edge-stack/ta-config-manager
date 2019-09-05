@@ -235,6 +235,12 @@ caas:
     ### the Docker bridge CIDRs of all host via this parameter.
     #docker0_cidr: "172.17.0.1/16"
 
+    ### This parameter is used to set the overlay CIDR of the default network for containers, so pods can comminucate
+    ### over this subnet and Kubernetes services are available here also.
+    ### The parameter can be used to make sure the CIDR of this network does not overlap with any customer
+    ### specific provider network's
+    #oam_cidr: "10.244.0.0/16"
+
     ### Mandatory parameter. All the infrastructure's HTTP servers are secured with TLS.
     ### The certificates of the servers are created in infrastructure deployment time, and are signed by an externally provided CA certificate.
     ### This CA certificate can be configured by setting its encrypted format into this configuration parameter.
