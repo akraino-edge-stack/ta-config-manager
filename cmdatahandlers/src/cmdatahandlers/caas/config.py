@@ -32,6 +32,8 @@ ADMIN_PWD_LENGTH = 20
 DEFAULT_CAAS_INFRA_LOG_TYPE = 'elasticsearch'
 AUDIT_DISK_LIMIT = 0.87
 CAAS_AUDIT_DISK_RATIO = 0.25
+DEFAULT_VALUES_MAP = { "docker0_cidr": "127.17.0.1/16",
+                       "oam_cidr": "10.244.0.0/16" }
 
 
 class Config(config.Config):
@@ -104,6 +106,11 @@ class Config(config.Config):
                 password=self.generate_pwd(ADMIN_PWD_LENGTH)
             )
 
+    def set_default_values_to_optional_params(self):
+        for parameter_name, default_value in DEFAULT_VALUES_MAP.iteritems():
+            if self.config[self.ROOT].get(parameter_name, '') == '':
+                self.config[self.ROOT][parameter_name] = default_value
+
     @staticmethod
     def _template_config(template, base_config, initial_data):
         config_data = initial_data.copy()
@@ -122,6 +129,7 @@ class Config(config.Config):
             return
         self.set_dynamic_config()
         self.set_static_config()
+        self.set_default_values_to_optional_params()
         self.set_post_config()
 
     def is_vnf_embedded_deployment(self):
