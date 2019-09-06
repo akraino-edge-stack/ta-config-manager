@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e125918_4821f08c",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-09-06T11:03:50Z",
+      "side": 1,
+      "message": "This parameter is used to set the overlay CIDR of the network WHICH is other used as the default network within CaaS.\nthe CIDR itself is not the network",
+      "revId": "ca80c0b55141efb91a4662f6b03aff8244b0a612",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b12120b6_7b86c998",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-09-06T11:03:50Z",
+      "side": 1,
+      "message": "mentioning overlay is enough\nsentence sounds strange for me. \"period. The parameter can be used to make sure the CIDR of this network does not overlap with any customer specific provider network\u0027s\".",
+      "revId": "ca80c0b55141efb91a4662f6b03aff8244b0a612",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9356b67a_b4a23948",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-09-06T11:03:50Z",
+      "side": 1,
+      "message": "whitespace",
+      "revId": "ca80c0b55141efb91a4662f6b03aff8244b0a612",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
