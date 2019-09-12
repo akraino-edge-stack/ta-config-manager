@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04a366de_a585db66",
+        "filename": "cmdatahandlers/src/cmdatahandlers/performance_profiles/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-09-12T09:15:13Z",
+      "side": 1,
+      "message": "generic comment for the whole enhancement: the interrogation and setting code shall tolerate the absence of ANY low latency options set\nthey should simply return \"nothing\", and the kcmd setter should simply not set any extra options",
+      "revId": "5ee4e0b96656316ab575347df3670b5d023cb0ec",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
