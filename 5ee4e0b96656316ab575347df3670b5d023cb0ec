@@ -34,6 +34,24 @@
       "revId": "5ee4e0b96656316ab575347df3670b5d023cb0ec",
       "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85c2c095_8b376b0a",
+        "filename": "cmdatahandlers/src/cmdatahandlers/performance_profiles/config.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-09-13T12:17:03Z",
+      "side": 1,
+      "message": "what do you mean it would introduce API breaks? I thought get_tuning is the \"new getter\"\nif you by default set these parameters into the CM, and it can never happens that the getters are trying to read something, then throwing exception is dead code\nif you are not always setting values into optional parameters then throwing exceptions when they don\u0027t have a value is awful design\n\nin none of the above cases you need exceptions. what you need is handling a NORMAL case, that is, optional parameter does not have a value",
+      "parentUuid": "94a54635_ef4fb194",
+      "revId": "5ee4e0b96656316ab575347df3670b5d023cb0ec",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
     }
   ]
 }
