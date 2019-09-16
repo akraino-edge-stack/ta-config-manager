@@ -172,6 +172,38 @@ networking:
                 #routes:
                 #    - {to: 192.168.12.0/22, via: 192.168.12.65}
 
+    ### Optional.
+    ### This network is used as the underlay network for inter-cluster
+    ### communication within CaaS. Setting this network can expose CaaS cluster
+    ### services to this network.
+    ### If unspecified, infra_internal used as a fallback option.
+    #caas_oam:
+        ### Optional network mtu
+        ### If not defined default value is used.
+        #mtu: <VALUE>
+
+        ### Network domains
+        #network_domains:
+            ### User defined name for network domain
+            #rack-1:
+                ### Network address in CIDR format
+                #cidr: <VALUE>
+
+                ### Optional vlan id
+                #vlan: <VALUE>
+
+                ### IP address of the gateway for default route.
+                ### If unspecified, the subnet's first IP address assumed.
+                #gateway: <VALUE>
+
+                ### Range for IPs
+                #ip_range_start: <VALUE>
+                #ip_range_end: <VALUE>
+
+                ### Optional static routes
+                #routes:
+                #    - {to: <CIDR>, via: <IP>}
+
     ### Provider networks
     ### Provider network to physical interface mapping is done
     ### in the network profile configuration
