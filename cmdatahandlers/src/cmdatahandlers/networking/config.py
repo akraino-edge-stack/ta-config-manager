@@ -20,10 +20,18 @@ from serviceprofiles import profiles
 from netaddr import IPNetwork, IPSet, IPRange
 
 
-VALID_NETWORKS = \
-    ['infra_external', 'infra_storage_cluster', 'infra_hw_management', 'infra_internal', 'cloud_tenant', 'infra_access']
+VALID_NETWORKS = [
+    'caas_oam'
+    'cloud_tenant',
+    'infra_access'
+    'infra_external',
+    'infra_internal',
+    'infra_hw_management',
+    'infra_storage_cluster',
+]
 
 NETWORK_DOMAINS = 'network_domains'
+
 
 class Config(config.Config):
     def __init__(self, confman):
@@ -486,6 +494,19 @@ class Config(config.Config):
         """
         return 'infra_internal'
 
+    @staticmethod
+    def get_caas_oam_network_name():
+        """ get the CaaS OAM network name
+
+            Return:
+
+            The CaaS OAM network name
+
+            Raise:
+
+        """
+        return 'caas_oam'
+
     def get_cloud_tenant_network_name(self):
         """ get the network name for the cloud tenant network
 
@@ -654,12 +675,10 @@ class Config(config.Config):
 
         return self.config[hostnetconfigkey][network]['mask']
 
-
     def get_external_vip(self):
         """ get the external vip ip, this is always the first ip in the range
         """
         return self.external_vip
-
 
     def get_provider_networks(self):
         """
@@ -717,7 +736,6 @@ class Config(config.Config):
                 'Missing vlan ranges configuration for provider network %s' % network)
 
         return self.config[self.ROOT]['provider_networks'][network]['vlan_ranges']
-
 
     def get_provider_network_mtu(self, network):
         """
