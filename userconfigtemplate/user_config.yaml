@@ -172,6 +172,30 @@ networking:
                 #routes:
                 #    - {to: 192.168.12.0/22, via: 192.168.12.65}
 
+    ### Optional.
+    ###
+    #caas_oam:
+        ### Optional network mtu
+        ### If not defined default value is used.
+        #mtu: <VALUE>
+
+        ### Network domains
+        #network_domains:
+            ### User defined name for network domain
+            #rack-1:
+                ### Network address in CIDR format
+                #cidr: <VALUE>
+
+                ### Optional vlan id
+                #vlan: <VALUE>
+
+                ### IP address of the gateway for default route
+                #gateway: <VALUE>
+
+                ### Range for IPs
+                #ip_range_start: <VALUE>
+                #ip_range_end: <VALUE>
+
     ### Provider networks
     ### Provider network to physical interface mapping is done
     ### in the network profile configuration
