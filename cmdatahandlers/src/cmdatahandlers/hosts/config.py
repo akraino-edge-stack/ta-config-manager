@@ -168,7 +168,7 @@ class Config(config.Config):
         return sorted(self.config[self.ROOT].keys())
 
     def get_labels(self, hostname):
-        noderole_label = "node.kubernetes.io/{}".format(self.get_noderole(hostname))
+        noderole_label = "kubernetes.io/role={}".format(self.get_noderole(hostname))
         mandatory_labels = \
             {"nodetype": self.get_nodetype(hostname),
              "nodeindex": self.get_nodeindex(hostname),
