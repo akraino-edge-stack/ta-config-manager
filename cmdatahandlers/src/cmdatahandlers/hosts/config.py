@@ -194,6 +194,11 @@ class Config(config.Config):
 
         return service_profiles[0]
 
+    def set_noderole(self):
+        hosts = self.get_hosts()
+        for host in hosts:
+            self.config[self.ROOT][host]['noderole'] = self.get_noderole(host)
+
     def set_nodeindex(self):
         hostsconf = self.confman.get_hosts_config_handler()
         install_host = utils.get_installation_host_name(hostsconf)
