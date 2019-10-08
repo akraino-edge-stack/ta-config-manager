@@ -79,6 +79,10 @@ class AnsibleInventory(object):
         hostvars[node]['nodetype'] = hostsconf.get_nodetype(node)
         hostvars[node]['nodeindex'] = hostsconf.get_nodeindex(node)
         hostvars[node]['nodename'] = hostsconf.get_nodename(node)
+        if hostsconf.get_nodetype(node) == "caas-master":
+            hostvars[node]['noderole'] = "master"
+        elif hostsconf.get_nodetype(node) == "caas-worker":
+            hostvars[node]['noderole'] = "worker"
 
         host_labels = hostsconf.get_labels(node)
         if host_labels:
