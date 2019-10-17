@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce7764aa_50652f5d",
+        "filename": "userconfigtemplate/user_config.yaml",
+        "patchSetId": 6
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 183
+      },
+      "writtenOn": "2019-10-17T14:15:17Z",
+      "side": 1,
+      "message": "the purpose of the network needs to be explained\nalso default fallback value (i.e. infra-int) defined",
+      "revId": "028dc02574600885b0eb7c4512e73f8850b41ad9",
+      "serverId": "4cada01b-0314-4fe0-84a1-f9ddc89863f9",
+      "unresolved": true
+    }
+  ]
+}
