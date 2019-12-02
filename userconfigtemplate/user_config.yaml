@@ -60,6 +60,8 @@ users:
     ### Example how to create SHA512 password hash that can be given as
     ### the admin password:
     ### python -c "from passlib.hash import sha512_crypt; import getpass; print sha512_crypt.using(rounds=5000).hash(getpass.getpass())"
+    ### Or
+    ### openssl passwd -<n> [<passwd>]
     admin_user_password: <VALUE>
 
     # Authorized public keys for the admin user
