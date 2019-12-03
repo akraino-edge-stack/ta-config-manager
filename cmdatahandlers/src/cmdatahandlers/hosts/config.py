@@ -178,6 +178,9 @@ class Config(config.Config):
         if self.is_sriov_enabled(hostname):
             labels.update({"sriov": "enabled"})
 
+        if self.is_localstorage_used(hostname):
+            labels.update({"localstorage": "enabled"})
+            
         black_list = ['name']
         return {name: attributes
                 for name, attributes in labels.iteritems()
@@ -237,6 +240,16 @@ class Config(config.Config):
                 return True
         return False
 
+    def is_localstorage_used(self, hostname):
+        storageprofs = self.get_storage_profiles(hostname)
+        storageprofconf = self.confman.get_storage_profiles_config_handler()
+        for profile in storageprofs:
+            if "shared" in self.config[storageprofconf.ROOT][profile]:
+                for volume in self.config[storageprofconf.ROOT][profile]["shared"]["volumes"]:
+                    if volume["name"] == 'caas_app':
+                        return True
+        return False
+        
     def get_enabled_hosts(self):
         """ get the list of enabled hosts in the cloud
 
