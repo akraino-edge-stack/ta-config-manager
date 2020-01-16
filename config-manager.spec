@@ -23,6 +23,7 @@ BuildArch:  noarch
 
 BuildRequires: python
 BuildRequires: python-setuptools
+Requires:      python2, redis, python2-eventlet, python2-routes, python2-redis
 
 %description
 This RPM contains source code for the config manager.
@@ -80,6 +81,7 @@ cd hostcli && python setup.py install --root %{buildroot} --no-compile --install
 %pre
 
 %post
+mkdir -p /opt/openstack-ansible/inventory/
 ln -sf /opt/cmframework/scripts/inventory.sh /opt/openstack-ansible/inventory/
 chmod -x /usr/lib/systemd/system/config-manager.service
 chmod -x /usr/lib/systemd/system/cmagent.service
