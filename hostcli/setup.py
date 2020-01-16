@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-#!/usr/bin/env python
+#!/usr/bin/env python2
 
 PROJECT = 'cmcli'
 
@@ -45,4 +45,3 @@ setup(
     },
     zip_safe=False,
 )
-

@@ -21,8 +21,9 @@ Source0:    %{name}-%{version}.tar.gz
 Vendor:     %{_platform_vendor}
 BuildArch:  noarch
 
-BuildRequires: python
-BuildRequires: python-setuptools
+BuildRequires: python2
+BuildRequires: python2-setuptools
+Requires:      python2, redis, python2-eventlet, python2-routes, python2-redis, python2-setuptools, python2-prettytable, python2-requests, python2-netaddr
 
 %description
 This RPM contains source code for the config manager.
@@ -50,7 +51,7 @@ cp cmframework/systemd/cmagent.service  %{buildroot}/usr/lib/systemd/system
 
 mkdir -p %{buildroot}/%{_python_site_packages_path}/cmframework/
 set -e
-cd cmframework/src && python setup.py install --root %{buildroot} --no-compile --install-purelib %{_python_site_packages_path} --install-scripts %{_platform_bin_path} && cd -
+cd cmframework/src && python2 setup.py install --root %{buildroot} --no-compile --install-purelib %{_python_site_packages_path} --install-scripts %{_platform_bin_path} && cd -
 
 cd cmdatahandlers && python setup.py install --root %{buildroot} --no-compile --install-purelib %{_python_site_packages_path} --install-scripts %{_platform_bin_path} && cd -
 
@@ -80,6 +81,7 @@ cd hostcli && python setup.py install --root %{buildroot} --no-compile --install
 %pre
 
 %post
+mkdir -p /opt/openstack-ansible/inventory/
 ln -sf /opt/cmframework/scripts/inventory.sh /opt/openstack-ansible/inventory/
 chmod -x /usr/lib/systemd/system/config-manager.service
 chmod -x /usr/lib/systemd/system/cmagent.service
